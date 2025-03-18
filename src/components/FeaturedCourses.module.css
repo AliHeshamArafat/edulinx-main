@@ -1,0 +1,72 @@
+.featuredCourses {
+  padding: 5rem 0;
+  background-color: #ffffff;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  font-size: 1.125rem;
+  color: #666;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.courseGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.viewAll {
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.viewAllBtn {
+  display: inline-block;
+  background-color: transparent;
+  color: #8d6499;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  border: 1px solid #8d6499;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.viewAllBtn:hover {
+  background-color: #f4f0f5;
+}
+
+@media (max-width: 992px) {
+  .courseGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .courseGrid {
+    grid-template-columns: 1fr;
+  }
+}
