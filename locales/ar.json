@@ -1,0 +1,13 @@
+{
+  "general": {
+    "home": "الرئيسية",
+    "universities": "الجامعات",
+    "programs": "البرامج",
+    "tracker": "المتابعة",
+    "blogs": "المدونة",
+    "login": "تسجيل الدخول",
+    "register": "تسجيل الخروج",
+    "heroSection_title": "لنجد لك البرنامج المناسب ,{name} مرحبا",
+    "blog": "المدونة"
+  }
+}

@@ -15,7 +15,7 @@ declare module "axios" {
 // Create Axios instance
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
-  timeout: 10000,
+  timeout: 20000,
 });
 
 // Request interceptor
@@ -26,7 +26,7 @@ api.interceptors.request.use(
 
     if (token) config.headers["Authorization"] = `Bearer ${token}`;
 
-    config.headers["api-key"] = `${process.env.NEXT_PUBLIC_API_KEY}`;
+    config.headers["x-api-key"] = `${process.env.NEXT_PUBLIC_API_KEY}`;
     config.headers["Accept-Language"] = lang || "en";
 
     return config;

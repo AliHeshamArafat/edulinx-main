@@ -1,0 +1,13 @@
+{
+  "general": {
+    "home": "Home",
+    "universities": "Universities",
+    "programs": "Programs",
+    "tracker": "Tracker",
+    "blogs": "Blogs",
+    "heroSection_title": "Hi {name}, Let's Find Your Course!",
+    "login": "Login",
+    "register": "Register",
+    "blog": "Blog"
+  }
+}

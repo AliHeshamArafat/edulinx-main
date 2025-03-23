@@ -1,8 +1,8 @@
 import { Form, FormProps } from "antd";
 import MyFormItem, { ControlTypes, InnerProps, MyFormItemProps } from "./form-item";
 import { ReactNode } from "react";
-import { Button } from "../Button";
 import FormRow from "./form-row";
+import ButtonComp from "../functional/buttonComp";
 
 export interface MyFormOptions extends Array<MyFormItemProps<ControlTypes>> {}
 
@@ -78,9 +78,9 @@ export default function FormComp<T>({
 
       {showSubmit && (
         <MyFormItem className={submitStyleContainerTw}>
-          <Button type="submit" className={submitStyleTw} onClick={onSumbit}>
+          <ButtonComp type="submit" className={submitStyleTw} onClick={onSumbit}>
             {submitText ?? "Submit"}
-          </Button>
+          </ButtonComp>
         </MyFormItem>
       )}
 

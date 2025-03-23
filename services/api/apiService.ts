@@ -21,9 +21,19 @@ const apiService = {
     }
   },
 
-  post: async ({ resource, data, config }: { resource: string; data: any; config?: AxiosRequestConfig }) => {
+  post: async ({
+    resource,
+    data,
+    config,
+    params = {},
+  }: {
+    resource: string;
+    data?: any;
+    config?: AxiosRequestConfig;
+    params?: any;
+  }) => {
     try {
-      const response = await api.post(`/${resource}`, data, config);
+      const response = await api.post(`/${resource}`, data, { ...config, params });
       return response.data;
     } catch (error) {
       console.log(error);

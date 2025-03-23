@@ -13,8 +13,12 @@ export default function ButtonComp({ children, types = "primary", loading, ...pr
     return (
       <button
         {...props}
-        className={`bg-transparent text-primary cursor-pointer  
-          ${props.disabled ? "!opacity-50 !cursor-not-allowed hover:!opacity-50" : ""} ${props.className}`}
+        className={`bg-transparent text-primary cursor-pointer 
+          transition-all duration-200 
+          active:scale-95 
+          transform
+          ${props.disabled ? "!opacity-50 !cursor-not-allowed hover:!opacity-50" : ""} 
+          ${props.className}`}
       >
         <div className="flex items-center justify-center gap-2">
           {loading && <Spinner />}

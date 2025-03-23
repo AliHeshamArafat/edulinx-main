@@ -2,7 +2,8 @@
 
 :root {
   --color-primary: #8d6499;
-  --color-primary-lighter: #f4f0f5;
+  --color-primary-lighter: #fdf8fe;
+  --color-primary-lighter-alt: #f3f0f6;
   --color-primary-hover: #7f5a8a;
   --color-primary-active: #71507a;
   --color-primary-dark: #6a4b73;
@@ -38,7 +39,8 @@
 
 @theme {
   --color-primary: #8d6499;
-  --color-primary-lighter: #f4f0f5;
+  --color-primary-lighter: #fdf8fe;
+  --color-primary-lighter-alt: #f3f0f6;
   --color-primary-hover: #7f5a8a;
   --color-primary-active: #71507a;
   --color-primary-dark: #6a4b73;
@@ -73,6 +75,20 @@
 
 }
 
+.main-container {
+  max-width: var(--app-max-width);
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.hero-section-gap {
+  margin-bottom: 24px;
+}
+
+
+.custom-select .ant-select-selector {
+  border-radius: 50px !important;
+}
 
 body {
   background: var(--background);
