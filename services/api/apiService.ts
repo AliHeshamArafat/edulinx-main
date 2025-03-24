@@ -7,14 +7,16 @@ const apiService = {
     params = {},
     skipSuccessMessage = true,
     skipErrorMessage = true,
+    config,
   }: {
     resource: string;
     params?: any;
     skipSuccessMessage?: boolean;
     skipErrorMessage?: boolean;
+    config?: AxiosRequestConfig;
   }) => {
     try {
-      const response = await api.get(`/${resource}`, { params, skipSuccessMessage, skipErrorMessage });
+      const response = await api.get(`/${resource}`, { params, skipSuccessMessage, skipErrorMessage, ...config });
       return response.data;
     } catch (error) {
       console.log(error);

@@ -6,9 +6,10 @@ interface FilterConfig {
   key: string;
   label: string;
   placeholder: string;
-  queryKey: string[];
-  queryFn: () => Promise<any>;
-  transformData: (data: any) => { value: string; label: string }[];
+  queryKey?: string[];
+  queryFn?: () => Promise<any>;
+  transformData?: (data: any) => { value: string; label: string }[];
+  options?: { value: string; label: string }[];
 }
 
 interface UseSearchProps<T> {
@@ -23,30 +24,45 @@ export default function useSearch<T>({ pageSize = 3, apiHook, params = {}, filte
   const [currentPage, setCurrentPage] = useState(1);
   const [filterValues, setFilterValues] = useState<Record<string, string>>({});
 
-  // Fetch filter options using React Query
-  const filterQueries = filterConfig.map((filter) =>
-    useQuery({
-      queryKey: filter.queryKey,
-      queryFn: filter.queryFn,
-      select: filter.transformData,
-    })
-  );
+  // Only create queries for filters that need API calls
+  const filterQueries = filterConfig
+    .filter(filter => filter.queryFn)
+    .map((filter) =>
+      useQuery({
+        queryKey: filter.queryKey!,
+        queryFn: filter.queryFn!,
+        select: filter.transformData,
+      })
+    );
 
-  // Add this to track filter loading state
   const isFiltersLoading = filterQueries.some((query) => query.isLoading);
 
-  const filters = filterConfig.reduce(
-    (acc, filter, index) => ({
+  const filters = filterConfig.reduce((acc, filter, index) => {
+    // If filter has manual options, use those
+    if (filter.options) {
+      return {
+        ...acc,
+        [filter.key]: {
+          label: filter.label,
+          placeholder: filter.placeholder,
+          options: filter.options,
+          isLoading: false,
+        },
+      };
+    }
+
+    // Otherwise, use API data
+    const queryIndex = filterConfig.slice(0, index).filter(f => f.queryFn).length;
+    return {
       ...acc,
       [filter.key]: {
         label: filter.label,
         placeholder: filter.placeholder,
-        options: filterQueries[index].data || [],
-        isLoading: filterQueries[index].isLoading,
+        options: filterQueries[queryIndex]?.data || [],
+        isLoading: filterQueries[queryIndex]?.isLoading || false,
       },
-    }),
-    {}
-  );
+    };
+  }, {});
 
   const handleFilterChange = (filterKey: string) => (value: string) => {
     setFilterValues((prev) => ({ ...prev, [filterKey]: value }));

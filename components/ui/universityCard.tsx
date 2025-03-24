@@ -48,7 +48,7 @@ export default function UniversityCard({ university }: UniversityCardProps) {
         </div>
 
         {/* Favorite Button */}
-        <FavoriteButton Id={university.uuid} />
+        <FavoriteButton Id={university.uuid} type="university" />
       </div>
 
       {/* Rankings Section */}

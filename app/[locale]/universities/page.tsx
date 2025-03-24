@@ -6,36 +6,33 @@ import UniversityCard from "@/components/ui/universityCard";
 import { University } from "@/types/university";
 import useSearch from "@/hooks/useSearch";
 import { useGetUniversities } from "@/hooks/apis";
-import { GET_CATEGORIES, GET_UNIVERSITIES } from "@/apis";
+import { GET_CATEGORIES, GET_COUNTRIES, GET_UNIVERSITIES } from "@/apis";
 import { Category } from "@/types/category";
-
+import { Country } from "@/types/country";
 export default function Universities() {
-//   const filterConfig = [
-//     {
-//       key: "universityUuid",
-//       label: "University",
-//       placeholder: "All Universities",
-//       queryKey: ["universities"],
-//       queryFn: () => GET_UNIVERSITIES({}),
-//       transformData: (response: any) =>
-//         response.data.result.map((uni: University) => ({
-//           value: uni.uuid,
-//           label: uni.name_Localized,
-//         })),
-//     },
-//     {
-//       key: "fieldUuid",
-//       label: "Program Type",
-//       placeholder: "All Programs",
-//       queryKey: ["program-types"],
-//       queryFn: () => GET_CATEGORIES(),
-//       transformData: (response: any) =>
-//         response.data.result.map((type: Category) => ({
-//           value: type.uuid,
-//           label: type.name_Localized,
-//         })),
-//     },
-//   ];
+  const filterConfig = [
+    {
+      key: "countryUuid",
+      label: "Country",
+      placeholder: "Select Country",
+      queryKey: ["countries"],
+      queryFn: () => GET_COUNTRIES(),
+      transformData: (response: any) =>
+        response.data.result.map((country: Country) => ({
+          value: country.uuid,
+          label: country.name_Localized,
+        })),
+    },
+    {
+      key: "nameEnDescending",
+      label: "Sort By",
+      placeholder: "Select Sort By",
+      options: [
+        { value: "true", label: "Name Ascending" },
+        { value: "false", label: "Name Descending" },
+      ],
+    },
+  ];
 
   const {
     data,
@@ -50,7 +47,7 @@ export default function Universities() {
     isFiltersLoading,
   } = useSearch<University>({
     apiHook: useGetUniversities,
-    // filterConfig,
+    filterConfig,
   });
 
   return (

@@ -12,7 +12,7 @@ export default async function CategoriesSection() {
       <div className="main-container">
         <TitleComp title="Categories" />
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-11">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-11">
           {categories?.data?.result.map((category: Category) => (
             <div className="w-full" key={category.uuid}>
               <CategoryCard category={category} />

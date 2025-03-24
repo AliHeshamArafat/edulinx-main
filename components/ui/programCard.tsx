@@ -25,7 +25,7 @@ export default function ProgramCard({ program }: ProgramCardProps) {
         </div>
 
         {/* Favorite button - client component for handling interactions */}
-        <FavoriteButton Id={program.uuid} />
+        <FavoriteButton Id={program.uuid} type="program" />
       </div>
 
       {/* Program details section */}

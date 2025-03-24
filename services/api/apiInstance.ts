@@ -2,6 +2,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { logout } from "../auth";
 import { getCookie } from "../cookies";
+import { logoutAction } from "@/app/store/actions/authActions";
 
 // Add this type declaration
 declare module "axios" {
@@ -47,7 +48,7 @@ api.interceptors.response.use(
 
     if (error.response && error.response.status === 401 && !error.config?.skipUnauthorized) {
       toast.error("Unauthorized");
-      logout();
+      logoutAction();
       window.location.href = "/";
     }
 
