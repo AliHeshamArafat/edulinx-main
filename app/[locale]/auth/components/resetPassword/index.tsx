@@ -29,11 +29,8 @@ export default function ResetPassword({ setType, className, formCompProps }: Res
   ];
 
   const onFinish = (values: any) => {
-    console.log(values, "values");
-
     RESET_PASSWORD({ data: values }).then((res) => {
       if (!res?.success) return;
-
       setType?.("Login");
     });
   };

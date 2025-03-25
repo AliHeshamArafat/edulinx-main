@@ -1,9 +1,18 @@
 "use client";
 
-import { useAppSelector } from "@/app/store/store";
-import lock from "@/assets/images/lock.png";
+import { useGetProfile } from "@/hooks/apis";
 import power from "@/assets/images/power.png";
 import Image from "next/image";
+import ProfileHeader from "./profileHeader";
+import { ProfileData } from "@/types/auth";
+import lock from "@/assets/images/lock.png";
+import avatar from "@/assets/images/avatar.png";
+import graduation from "@/assets/images/grad.png";
+import heart from "@/assets/images/heart.png";
+import clock from "@/assets/images/clock.png";
+import guard from "@/assets/images/guard.png";
+import bell from "@/assets/images/bell.png";
+import { logoutAction } from "@/app/store/actions/authActions";
 
 interface ProfileSidebarProps {
   activeSection: string;
@@ -11,37 +20,34 @@ interface ProfileSidebarProps {
 }
 
 export default function ProfileSidebar({ activeSection, onSectionChange }: ProfileSidebarProps) {
-  const { user } = useAppSelector((state) => state.auth);
+  const { data: profile, isLoading, refetch } = useGetProfile();
 
   const menuItems = [
     {
       title: "General",
       items: [
-        { id: "personal", label: "Personal Data", icon: lock },
+        { id: "personal", label: "Personal Data", icon: avatar },
         { id: "password", label: "Change Password", icon: lock },
-        { id: "preferences", label: "Preferences and Interests", icon: lock },
-        { id: "favorites", label: "Favorite", icon: lock },
-        { id: "history", label: "Activity History", icon: lock },
+        { id: "preferences", label: "Preferences and Interests", icon: graduation },
+        { id: "favorites", label: "Favorite", icon: heart },
+        { id: "history", label: "Activity History", icon: clock },
       ],
     },
     {
       title: "Settings",
       items: [
-        { id: "privacy", label: "Privacy & Policy", icon: lock },
-        { id: "notifications", label: "Notification", icon: lock },
+        { id: "privacy", label: "Privacy & Policy", icon: guard },
+        { id: "notifications", label: "Notification", icon: bell },
       ],
     },
   ];
 
+  // if (!profile?.data) return null;
+
   return (
     <div className="bg-white rounded-lg p-6">
       {/* Profile Header */}
-      <div className="flex flex-col items-center mb-6">
-        <div className="relative w-24 h-24 mb-3">
-          <Image src={user?.photo || "/placeholder-avatar.png"} alt={user?.fullName} fill className="rounded-full object-cover" />
-        </div>
-        <h2 className="text-lg font-semibold">{user?.fullName}</h2>
-      </div>
+      <ProfileHeader profile={profile?.data as ProfileData} loading={isLoading} refetch={refetch} />
 
       {/* Menu Items */}
       <div className="space-y-6">
@@ -53,8 +59,8 @@ export default function ProfileSidebar({ activeSection, onSectionChange }: Profi
                 <button
                   key={item.id}
                   onClick={() => onSectionChange(item.id)}
-                  className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg text-left transition-colors ${
-                    activeSection === item.id ? "bg-primary text-white" : "hover:bg-gray-50"
+                  className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg text-left transition-colors text-sm cursor-pointer ${
+                    activeSection === item.id ? "bg-primary text-white" : "hover:bg-gray-50 text-primary"
                   }`}
                 >
                   <Image
@@ -73,12 +79,10 @@ export default function ProfileSidebar({ activeSection, onSectionChange }: Profi
 
         {/* Logout Button */}
         <button
-          onClick={() => {
-            /* Add logout logic */
-          }}
-          className="w-full flex items-center gap-3 px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg"
+          onClick={() => logoutAction(true)}
+          className="w-full flex items-center gap-3 px-4 py-2 text-primary hover:bg-gray-50 rounded-lg cursor-pointer"
         >
-          <Image src={power} alt="Logout" width={30} height={30} className="text-red-600" />
+          <Image src={power} alt="Logout" width={30} height={30} className="text-primary" />
           <span>Log Out</span>
         </button>
       </div>

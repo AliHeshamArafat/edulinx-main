@@ -29,10 +29,6 @@ export default function ThirdStep({ setType }: ThirdStepProps) {
   }, [categories, searchQuery]);
 
   const handleContinue = () => {
-    // console.log(registerData, "registerData");
-
-    // if (!registerData) return;
-
     setType("Login");
   };
 

@@ -18,6 +18,7 @@ const useFormData = () => {
         placeholder: "Full Name",
         ...styleProps,
       },
+      rules: [{ required: true, message: "Full Name is required" }],
     },
     {
       name: "email",
@@ -28,6 +29,7 @@ const useFormData = () => {
         type: "email",
         ...styleProps,
       },
+      rules: [{ required: true, message: "Email is required" }],
     },
     {
       name: "phone",
@@ -37,6 +39,7 @@ const useFormData = () => {
         placeholder: "Phone",
         ...styleProps,
       },
+      rules: [{ required: true, message: "Phone is required" }],
     },
   ];
 

@@ -1,27 +1,32 @@
 "use client";
 
-import { useAppSelector } from "@/app/store/store";
 import FormComp from "@/components/form/formComp";
 import useFormData from "../form/useFormData";
+import { useGetProfile } from "@/hooks/apis";
+import PersonalDataSkeleton from "@/components/skeletons/personalDataSkeleton";
+import { UPDATE_PROFILE } from "@/apis";
 
 export default function PersonalData() {
-  const { user } = useAppSelector((state) => state.auth);
   const { formFields } = useFormData();
-
-  console.log(user, "user");
+  const { data: profile, isLoading, refetch } = useGetProfile();
 
   const onSubmit = (values: any) => {
-    console.log(values);
+    UPDATE_PROFILE({ data: values }).then((res) => {
+      if (!res?.success) return;
+      refetch?.();
+    });
   };
+
+  if (isLoading) return <PersonalDataSkeleton />;
 
   return (
     <div className="bg-white rounded-lg p-6">
       <h2 className="text-xl font-semibold mb-6">Personal Data</h2>
 
-      <h3 className="text-sm font-medium mb-4">Contact Details</h3>
+      {/* <h3 className="text-sm font-medium mb-4">Contact Details</h3> */}
 
       <FormComp
-        initialValues={user}
+        initialValues={profile?.data}
         fileds={formFields}
         onFinish={onSubmit}
         layout="vertical"

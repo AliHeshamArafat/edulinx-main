@@ -8,10 +8,11 @@ export const createQueryString = (params: Record<string, string | number>): stri
 
 export const getHeaders = () => {
   const token = getCookie("token");
+  const lang = getCookie("lang");
 
   return {
     Authorization: `Bearer ${token}`,
-    "api-key": `${process.env.NEXT_PUBLIC_API_KEY}`,
-    "Accept-Language": "en",
+    "x-api-key": `${process.env.NEXT_PUBLIC_API_KEY}`,
+    "Accept-Language": lang === "ar" ? "ar-EG" : "en-US",
   };
 };

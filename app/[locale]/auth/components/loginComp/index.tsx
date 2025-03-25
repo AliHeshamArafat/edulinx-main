@@ -8,7 +8,6 @@ import useIsMounted from "@/hooks/isMounted";
 import LoginSkeleton from "@/components/skeletons/loginSkeleton";
 import { loginAction } from "@/app/store/actions/authActions";
 import { redirect } from "next/navigation";
-import { useAppSelector } from "@/app/store/store";
 
 interface LoginCompProps {
   setType: (type: LoginType) => void;
@@ -17,12 +16,6 @@ interface LoginCompProps {
 export default function LoginComp({ setType }: LoginCompProps) {
   const { formFields } = useFormData();
   const isMounted = useIsMounted();
-
-  const { token, isAuthenticated, user } = useAppSelector((state) => state.auth);
-
-  console.log(user, "user");
-  console.log(token, "token");
-  console.log(isAuthenticated, "isAuthenticated");
 
   const onSubmit = (values: any) => {
     LOGIN(values).then((res) => {

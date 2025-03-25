@@ -1,7 +1,7 @@
 import apiService from "@/services/api/apiService";
 import { StudentApplicationCreate } from "./types/student";
 import { setCookie } from "./services/cookies";
-import { RegisterData, ResetPasswordData, VerifyOtpData } from "./types/auth";
+import { RegisterData, ResetPasswordData, VerifyOtpData, ProfileResponse } from "./types/auth";
 import { AxiosRequestConfig } from "axios";
 
 interface QueryParams {
@@ -49,7 +49,7 @@ export const GET_SUGGESTED_UNIVERSITIES = async ({ config }: { config?: AxiosReq
 };
 
 // get program by id
-export const GET_PROGRAM_BY_ID = async ({ id , config}: { id: string , config?: AxiosRequestConfig }) => {
+export const GET_PROGRAM_BY_ID = async ({ id, config }: { id: string; config?: AxiosRequestConfig }) => {
   return apiService.get({ resource: `Programs/${id}`, config });
 };
 
@@ -75,7 +75,6 @@ export const VERIFY_OTP = async ({ data }: { data: VerifyOtpData }) => {
 
 // resend otp
 export const RESEND_OTP = async ({ params }: { params: { email: string } }) => {
-  console.log(params, "params");
   return apiService.post({ resource: `account/resend-otp`, params });
 };
 
@@ -112,4 +111,14 @@ export const GET_BLOG_BY_ID = async ({ id }: { id: string }) => {
 // get student applications
 export const GET_STUDENT_APPLICATIONS = async ({ params }: { params?: QueryParams }) => {
   return apiService.get({ resource: `public/student-applications`, params });
+};
+
+// get profile
+export const GET_PROFILE = async (): Promise<ProfileResponse | undefined> => {
+  return apiService.get({ resource: `account/profile` });
+};
+
+// update profile
+export const UPDATE_PROFILE = async ({ data }: { data: any }) => {
+  return apiService.put({ resource: `account/profile`, data, config: { headers: { "Content-Type": "multipart/form-data" } } });
 };

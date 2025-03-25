@@ -55,9 +55,9 @@ const apiService = {
     }
   },
 
-  put: async (resource: string, id: string | number, data: any) => {
+  put: async ({ resource, data, config }: { resource: string; data: any; config?: AxiosRequestConfig }) => {
     try {
-      const response = await api.put(`/${resource}/${id}`, data);
+      const response = await api.put(`/${resource}`, data, { ...config });
       return response.data;
     } catch (error) {
       console.log(error);

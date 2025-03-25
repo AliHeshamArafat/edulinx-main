@@ -21,3 +21,29 @@ export interface ResetPasswordData {
   confirmNewPassword: string;
 }
 
+export interface ProfileData {
+  phone: string;
+  gender: string;
+  genderLocalized: string;
+  degreeType: string;
+  notificationStatus: boolean;
+  notificationDdl: boolean;
+  notificationRecommendation: boolean;
+  uuid: string;
+  dateCreated: string;
+  dateLastLogin: string;
+  fullName: string;
+  email: string;
+  state: string;
+  stateLocalized: string;
+  tempOTP: string;
+  userType: string;
+  userTypeLocalized: string;
+  profilePicturePath: string;
+}
+
+export interface ProfileResponse {
+  data: ProfileData;
+  success: boolean;
+  code: string;
+}

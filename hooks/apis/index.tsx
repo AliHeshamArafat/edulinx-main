@@ -10,7 +10,9 @@ import {
   GET_BLOGS,
   GET_BLOG_BY_ID,
   GET_STUDENT_APPLICATIONS,
+  GET_PROFILE,
 } from "@/apis";
+import { ProfileResponse } from "@/types/auth";
 
 interface QueryParams {
   [key: string]: string | number;
@@ -89,5 +91,13 @@ export const useGetStudentApplications = ({ params }: { params?: QueryParams }) 
   return useQuery({
     queryKey: ["student-applications", params],
     queryFn: () => GET_STUDENT_APPLICATIONS({ params }),
+  });
+};
+
+// get profile
+export const useGetProfile = () => {
+  return useQuery({
+    queryKey: ["profile"],
+    queryFn: () => GET_PROFILE(),
   });
 };
