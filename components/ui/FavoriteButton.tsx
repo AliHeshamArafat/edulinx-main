@@ -27,14 +27,14 @@ export default function FavoriteButton({ Id, initialFavorite = false, type }: Fa
       className="absolute top-3 right-3 rounded-full transition-colors cursor-pointer"
       types="ghost"
     >
-      {isFavorite ? <HeartFilled /> : <HeartOutlined />}
+      {/* {isFavorite ? <HeartFilled /> : <HeartOutlined />} */}
 
-      {/* <Image
+      <Image
         src={isFavorite ? FavIcon : FavIcon}
         alt={isFavorite ? "Remove from favorites" : "Add to favorites"}
         width={30}
         height={30}
-      /> */}
+      />
     </ButtonComp>
   );
 }

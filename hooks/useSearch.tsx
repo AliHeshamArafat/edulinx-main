@@ -17,23 +17,27 @@ interface UseSearchProps<T> {
   apiHook?: any;
   params?: Record<string, any>;
   filterConfig?: FilterConfig[];
+  disableHook?: boolean;
 }
 
-export default function useSearch<T>({ pageSize = 3, apiHook, params = {}, filterConfig = [] }: UseSearchProps<T>) {
+export default function useSearch<T>({ pageSize = 3, apiHook, params = {}, filterConfig = [], disableHook = false }: UseSearchProps<T>) {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [filterValues, setFilterValues] = useState<Record<string, string>>({});
 
-  // Only create queries for filters that need API calls
-  const filterQueries = filterConfig
-    .filter(filter => filter.queryFn)
-    .map((filter) =>
-      useQuery({
-        queryKey: filter.queryKey!,
-        queryFn: filter.queryFn!,
-        select: filter.transformData,
-      })
-    );
+  // Only create queries for filters that need API calls and when hook is not disabled
+  const filterQueries = !disableHook 
+    ? filterConfig
+        .filter((filter) => filter.queryFn)
+        .map((filter) =>
+          useQuery({
+            queryKey: filter.queryKey!,
+            queryFn: filter.queryFn!,
+            select: filter.transformData,
+            enabled: !disableHook,
+          })
+        )
+    : [];
 
   const isFiltersLoading = filterQueries.some((query) => query.isLoading);
 
@@ -51,8 +55,21 @@ export default function useSearch<T>({ pageSize = 3, apiHook, params = {}, filte
       };
     }
 
+    // If hook is disabled, return empty options
+    if (disableHook) {
+      return {
+        ...acc,
+        [filter.key]: {
+          label: filter.label,
+          placeholder: filter.placeholder,
+          options: [],
+          isLoading: false,
+        },
+      };
+    }
+
     // Otherwise, use API data
-    const queryIndex = filterConfig.slice(0, index).filter(f => f.queryFn).length;
+    const queryIndex = filterConfig.slice(0, index).filter((f) => f.queryFn).length;
     return {
       ...acc,
       [filter.key]: {
@@ -69,8 +86,8 @@ export default function useSearch<T>({ pageSize = 3, apiHook, params = {}, filte
     setCurrentPage(1);
   };
 
-  // Main data query
-  const { data, isLoading } = apiHook({
+  // Main data query - skip if hook is disabled
+  const { data, isLoading } = !disableHook ? apiHook({
     params: removeNullUndefined({
       pageNo: currentPage,
       rowCount: pageSize,
@@ -78,7 +95,7 @@ export default function useSearch<T>({ pageSize = 3, apiHook, params = {}, filte
       ...filterValues,
       ...params,
     }),
-  });
+  }) : { data: null, isLoading: false };
 
   const handleSearch = (value: string) => {
     setSearchQuery(value);

@@ -4,7 +4,8 @@ import { Pagination } from "antd";
 interface ListPaginationCompProps<T> {
   data?: {
     result: T[];
-    totalCount: number;
+    totalCount?: number;
+    genericTotalCount: number;
   };
   isLoading?: boolean;
   renderItem: (item: T) => React.ReactNode;
@@ -23,8 +24,6 @@ export default function ListPaginationComp<T>({
   pageSize = 12,
   hideNumberOfResults = false,
 }: ListPaginationCompProps<T>) {
-
-  console.log(data, 'data');
   return (
     <div>
       {/* number of results */}
@@ -44,11 +43,11 @@ export default function ListPaginationComp<T>({
       </div>
 
       {/* Pagination */}
-      {data && data.totalCount > 0 && (
+      {data && data.genericTotalCount > 0 && (
         <div className="flex justify-center mt-8">
           <Pagination
             current={currentPage || 1}
-            total={data.totalCount}
+            total={data.genericTotalCount}
             pageSize={pageSize}
             onChange={onPageChange}
             showSizeChanger={false}

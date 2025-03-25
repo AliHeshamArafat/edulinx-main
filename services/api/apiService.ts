@@ -1,5 +1,6 @@
 import { AxiosRequestConfig } from "axios";
 import api from "./apiInstance";
+import { ApiResponse } from "@/types/api";
 
 const apiService = {
   get: async ({
@@ -14,7 +15,7 @@ const apiService = {
     skipSuccessMessage?: boolean;
     skipErrorMessage?: boolean;
     config?: AxiosRequestConfig;
-  }) => {
+  }): Promise<ApiResponse<any> | undefined> => {
     try {
       const response = await api.get(`/${resource}`, { params, skipSuccessMessage, skipErrorMessage, ...config });
       return response.data;

@@ -5,21 +5,27 @@ import { University } from "@/types/university";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import ButtonComp from "@/components/functional/buttonComp";
+import { getServerHeaders } from "@/utils/serverHeaders";
 
 export default async function UniverstiesSection() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
+  // First try to get suggested universities if user is authenticated
+  let response = (await GET_SUGGESTED_UNIVERSITIES({
+    config: await getServerHeaders(),
+  })) || { data: { result: [] } };
 
-  const response = token
-    ? await GET_SUGGESTED_UNIVERSITIES({ config: { headers: { Authorization: `Bearer ${token}` } } })
-    : await GET_UNIVERSITIES({});
+  // If no suggested universities or not authenticated, get regular universities
+  if (!response?.data?.result?.length) {
+    response = (await GET_UNIVERSITIES({
+      config: await getServerHeaders(),
+    })) || { data: { result: [] } };
+  }
 
   const universities = response?.data?.result;
 
   return (
     <div className="bg-primary-lighter py-16">
       <div className="main-container">
-        <TitleComp title="Suggested Universities" />
+        <TitleComp title={response?.data?.result?.length > 0 ? "Suggested Universities" : "Universities"} />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-11">
           {universities?.slice(0, 3).map((university: University) => (

@@ -5,15 +5,14 @@ import useModal from "@/hooks/useModal";
 import { Program } from "@/types/program";
 import Image from "next/image";
 import TimeSlotsModal from "./timeSlotsModal";
+import { getImageUrl } from "@/services/general";
 
 export default function ProgramHeader({ program }: { program: Program }) {
-  const fallbackImage = "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=1000&auto=format&fit=crop";
-
-  const { hideModal, renderModal, showModal } = useModal({ modalProps: { footer: null } });
+  const { renderModal, showModal, hideModal } = useModal({ modalProps: { footer: null } });
 
   const handleApplyNow = () => {
     showModal({
-      content: <TimeSlotsModal programUuid={program.uuid} />,
+      content: <TimeSlotsModal hideModal={hideModal} programUuid={program.uuid} />,
     });
   };
 
@@ -43,13 +42,7 @@ export default function ProgramHeader({ program }: { program: Program }) {
 
       {/* image */}
       <div className="relative w-full md:w-[400px] h-[200px] md:h-[250px] rounded-lg overflow-hidden">
-        <Image
-          // src={process.env.NEXT_PUBLIC_API_URL + program.photo}
-          src={fallbackImage}
-          alt={program.title_Localized}
-          fill
-          className="object-cover"
-        />
+        <Image src={getImageUrl(program.photo)} alt={program.title_Localized} fill className="object-cover" />
       </div>
 
       {renderModal()}

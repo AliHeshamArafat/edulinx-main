@@ -9,6 +9,7 @@ interface SearchPageProps<T> {
   data?: {
     result: T[];
     totalCount: number;
+    genericTotalCount: number;
   };
   isLoading?: boolean;
   renderItem: (item: T) => React.ReactNode;

@@ -1,14 +1,16 @@
 import Cookies from "js-cookie";
 import apiService from "@/services/api/apiService";
-import FormComp, { MyFormOptions } from "@/components/form/formComp";
+import FormComp, { MyFormOptions, MyFormProps } from "@/components/form/formComp";
 import { LoginType } from "../../page";
 import { RESET_PASSWORD } from "@/apis";
 
 interface ResetPasswordProps {
-  setType: (type: LoginType) => void;
+  setType?: (type: LoginType) => void;
+  className?: string;
+  formCompProps?: MyFormProps<any>;
 }
 
-export default function ResetPassword({ setType }: ResetPasswordProps) {
+export default function ResetPassword({ setType, className, formCompProps }: ResetPasswordProps) {
   const fields: MyFormOptions = [
     {
       name: "newPassword",
@@ -24,13 +26,6 @@ export default function ResetPassword({ setType }: ResetPasswordProps) {
       rules: [{ required: true, message: "Please confirm your password" }],
       required: true,
     },
-    // {
-    //   name: "otp",
-    //   type: "otp",
-    //   innerProps: { placeholder: "Enter OTP", length: 4 },
-    //   rules: [{ required: true, message: "Please enter your OTP" }],
-    //   required: true,
-    // },
   ];
 
   const onFinish = (values: any) => {
@@ -39,12 +34,12 @@ export default function ResetPassword({ setType }: ResetPasswordProps) {
     RESET_PASSWORD({ data: values }).then((res) => {
       if (!res?.success) return;
 
-      setType("Login");
+      setType?.("Login");
     });
   };
 
   return (
-    <div className="w-full max-w-md mx-auto bg-white rounded-xl p-8 shadow-md">
+    <div className={`w-full max-w-md mx-auto bg-white rounded-xl p-8 shadow-md ${className}`}>
       <FormComp
         fileds={fields}
         onFinish={onFinish}
@@ -53,6 +48,7 @@ export default function ResetPassword({ setType }: ResetPasswordProps) {
         submitText="Reset Password"
         submitStyleTw="w-full mt-5"
         className="!mt-8"
+        {...formCompProps}
       />
     </div>
   );

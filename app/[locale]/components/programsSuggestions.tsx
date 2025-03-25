@@ -6,14 +6,16 @@ import { Program } from "@/types/program";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import ButtonComp from "@/components/functional/buttonComp";
+import { getServerHeaders } from "@/utils/serverHeaders";
 
 export default async function ProgramsSuggestions() {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
+  const lang = cookieStore.get("lang")?.value;
 
   const response = token
-    ? await GET_SUGGESTED_PROGRAMS({ config: { headers: { Authorization: `Bearer ${token}` } } })
-    : await GET_PROGRAMS({});
+    ? await GET_SUGGESTED_PROGRAMS({ config: await getServerHeaders() })
+    : await GET_PROGRAMS({ config: await getServerHeaders() });
 
   const programs = response?.data?.result;
 

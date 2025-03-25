@@ -19,8 +19,8 @@ export const REGISTER = async ({ data }: { data: RegisterData }) => {
 };
 
 // get programs
-export const GET_PROGRAMS = async ({ params }: { params?: QueryParams }) => {
-  return apiService.get({ resource: "Programs", params });
+export const GET_PROGRAMS = async ({ params, config }: { params?: QueryParams; config?: AxiosRequestConfig }) => {
+  return apiService.get({ resource: "Programs", params, config });
 };
 
 // get suggested programs
@@ -38,14 +38,19 @@ export const GET_UNIVERSITIES = async ({ params, config }: { params?: QueryParam
   return apiService.get({ resource: "Universities", params, config });
 };
 
+// get university by id
+export const GET_UNIVERSITY_BY_ID = async ({ id, config }: { id: string; config?: AxiosRequestConfig }) => {
+  return apiService.get({ resource: `Universities/${id}`, config });
+};
+
 // get suggested universities
 export const GET_SUGGESTED_UNIVERSITIES = async ({ config }: { config?: AxiosRequestConfig }) => {
   return apiService.get({ resource: "public/suggestedUniversities", config });
 };
 
 // get program by id
-export const GET_PROGRAM_BY_ID = async ({ id }: { id: string }) => {
-  return apiService.get({ resource: `Programs/${id}` });
+export const GET_PROGRAM_BY_ID = async ({ id , config}: { id: string , config?: AxiosRequestConfig }) => {
+  return apiService.get({ resource: `Programs/${id}`, config });
 };
 
 // get time slots

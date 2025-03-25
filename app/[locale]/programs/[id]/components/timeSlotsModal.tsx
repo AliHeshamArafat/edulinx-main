@@ -2,11 +2,14 @@
 
 import { useGetTimeSlots } from "@/hooks/apis";
 import React, { useState } from "react";
-import { Calendar, TimePicker, Button } from "antd";
-import type { Dayjs } from "dayjs";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import dayjs from "dayjs";
 import ButtonComp from "@/components/functional/buttonComp";
 import { CREATE_STUDENT_APPLICATION } from "@/apis";
+import { useAppSelector } from "@/app/store/store";
+import SuccessModal from "./successModal";
+import CalendarSection from "./calendarSection";
 
 interface TimeSlot {
   uuid: string;
@@ -18,38 +21,51 @@ interface TimeSlot {
 
 interface TimeSlotsModalProps {
   programUuid: string;
+  hideModal: () => void;
 }
 
-export default function TimeSlotsModal({ programUuid }: TimeSlotsModalProps) {
-  const { data } = useGetTimeSlots();
-  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | null>(null);
+type ModalType = "TIME_SLOTS" | "SUCCESS";
 
+export default function TimeSlotsModal({ programUuid, hideModal }: TimeSlotsModalProps) {
+  const { data } = useGetTimeSlots();
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | null>(null);
+  const [modalType, setModalType] = useState<ModalType>("TIME_SLOTS");
+
+  const { user } = useAppSelector((state) => state.auth);
   const timeSlots = data?.data?.result || [];
 
-  const getAvailableTimeSlotsForDate = (date: Dayjs) => {
+  const getAvailableTimeSlotsForDate = (date: Date) => {
     return timeSlots.filter((slot: TimeSlot) => {
       const slotDate = dayjs(slot.startTime);
-      return slotDate.format("YYYY-MM-DD") === date.format("YYYY-MM-DD") && !slot.occupied;
+      return slotDate.format("YYYY-MM-DD") === dayjs(date).format("YYYY-MM-DD") && !slot.occupied;
     });
   };
 
-  const onDateSelect = (date: Dayjs) => {
+  const handleDateChange = (date: Date) => {
     setSelectedDate(date);
     setSelectedTimeSlot(null);
   };
 
   const handleConfirm = () => {
-    console.log("selectedTimeSlot", selectedTimeSlot);
-
     if (!selectedTimeSlot || !programUuid) return;
 
     CREATE_STUDENT_APPLICATION({
       programUuid: programUuid,
       timeSlotUuid: selectedTimeSlot,
-      studentUuid: "",
+      studentUuid: user?.uuid,
+    }).then((res) => {
+      if (!res?.success) return;
+      setModalType("SUCCESS");
     });
   };
+
+  const handleDone = () => {
+    hideModal();
+    // setModalType("TIME_SLOTS");
+  };
+
+  if (modalType === "SUCCESS") return <SuccessModal onDone={handleDone} />;
 
   return (
     <div className="p-6">
@@ -59,18 +75,7 @@ export default function TimeSlotsModal({ programUuid }: TimeSlotsModalProps) {
         {/* Calendar */}
         <div>
           <h3 className="text-sm font-medium mb-2">Select Date</h3>
-          <Calendar
-            fullscreen={false}
-            onSelect={onDateSelect}
-            mode="month"
-            disabledDate={(current) => {
-              // Disable dates before today and dates with no available slots
-              return (
-                current.isBefore(dayjs(), "day") ||
-                !timeSlots.some((slot: TimeSlot) => dayjs(slot.startTime).format("YYYY-MM-DD") === current.format("YYYY-MM-DD"))
-              );
-            }}
-          />
+          <CalendarSection timeSlots={timeSlots} handleChange={handleDateChange} />
         </div>
 
         {/* Time Slots */}
@@ -78,7 +83,7 @@ export default function TimeSlotsModal({ programUuid }: TimeSlotsModalProps) {
           <h3 className="text-sm font-medium mb-2">Select Time</h3>
           {selectedDate && (
             <div className="space-y-2">
-              <p className="text-sm text-gray-600 mb-4">{selectedDate.format("MMMM D, YYYY")}</p>
+              <p className="text-sm text-gray-600 mb-4">{dayjs(selectedDate).format("MMMM D, YYYY")}</p>
               <div className="space-y-2">
                 {getAvailableTimeSlotsForDate(selectedDate).map((slot: TimeSlot) => (
                   <div

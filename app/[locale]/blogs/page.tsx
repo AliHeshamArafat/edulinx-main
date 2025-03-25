@@ -24,7 +24,7 @@ export default async function Blogs({
   });
 
   // Calculate max pages
-  const maxPages = Math.ceil(response.data.totalCount / pageSize);
+  const maxPages = Math.ceil(response?.data?.genericTotalCount / pageSize);
 
   // Redirect if current page is greater than max pages
   if (currentPage > maxPages && maxPages > 0) {
@@ -36,8 +36,8 @@ export default async function Blogs({
       <Hero />
       <BlogList 
         data={{
-          result: response.data.result,
-          totalCount: response.data.totalCount,
+          result: response?.data?.result,
+          totalCount: response?.data?.genericTotalCount,
         }}
         currentPage={currentPage}
         pageSize={pageSize}

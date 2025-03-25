@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Program } from "@/types/program";
 import FavoriteButton from "./FavoriteButton";
 import { getImageUrl } from "@/services/general";
+import location from "@/assets/images/location.png";
 
 interface ProgramCardProps {
   program: Program;
@@ -32,12 +33,27 @@ export default function ProgramCard({ program }: ProgramCardProps) {
       <div className="p-4">
         {/* University information */}
         <div className="flex items-center gap-2 mb-2">
-          {/* TODO: Add university icon */}
-          <span className="text-gray-600 text-sm">{program?.universityName}</span>
+          <Image
+            src={getImageUrl(program?.university?.logo) || fallbackImage}
+            alt={program?.universityName}
+            width={20}
+            height={20}
+            className="rounded-full"
+          />
+          <span className="text-gray-600 text-sm">{program?.university?.name_Localized}</span>
+
+          {/* location */}
+          <div className="flex items-center text-sm text-gray-500">
+            <Image src={location} alt="Location" width={18} height={18} className="text-primary mr-1" />
+            <span>{program?.university?.country?.name_Localized}</span>
+          </div>
         </div>
 
         {/* Program title with 2-line clamp */}
         <h3 className="text-lg font-semibold mb-3 line-clamp-2">{program?.title_Localized}</h3>
+
+        {/* separator */}
+        <div className="h-px bg-gray-200 my-3"></div>
 
         {/* Footer: Program cost, duration, and CTA */}
         <div className="flex justify-between items-center">

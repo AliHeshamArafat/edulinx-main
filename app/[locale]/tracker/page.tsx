@@ -3,12 +3,19 @@ import { useGetStudentApplications } from "@/hooks/apis";
 import SearchPage from "@/components/page/searchPage";
 import StudentAppCard from "@/components/ui/studentAppCard";
 import { StudentApplication } from "@/types/student";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import useSearch from "@/hooks/useSearch";
 import { GET_CATEGORIES } from "@/apis";
 import { Category } from "@/types/category";
+import { useRouter } from "next/navigation";
+import { useAppSelector } from "@/app/store/store";
+import { toast } from "react-toastify";
 
 export default function Tracker() {
+  const router = useRouter();
+  const { isAuthenticated } = useAppSelector((state) => state.auth);
+  const hasShownToast = useRef(false);
+
   const filterConfig = [
     {
       key: "fieldUuid",
@@ -23,6 +30,7 @@ export default function Tracker() {
         })),
     },
   ];
+
   const {
     data,
     isLoading,
@@ -37,7 +45,20 @@ export default function Tracker() {
   } = useSearch<StudentApplication>({
     apiHook: useGetStudentApplications,
     filterConfig,
+    pageSize: 6,
+    disableHook: !isAuthenticated,
   });
+
+  // redirect to login if not authenticated
+  useEffect(() => {
+    if (!isAuthenticated && !hasShownToast.current) {
+      hasShownToast.current = true;
+      toast.error("You must be logged in to access this page");
+      router.push("/");
+    }
+  }, [isAuthenticated, router]);
+
+  if (!isAuthenticated) return null;
 
   return (
     <div className="">

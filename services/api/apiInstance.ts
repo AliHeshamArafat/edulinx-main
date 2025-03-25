@@ -10,6 +10,7 @@ declare module "axios" {
     skipSuccessMessage?: boolean;
     skipErrorMessage?: boolean;
     skipUnauthorized?: boolean;
+    isServer?: boolean;
   }
 }
 
@@ -28,7 +29,8 @@ api.interceptors.request.use(
     if (token) config.headers["Authorization"] = `Bearer ${token}`;
 
     config.headers["x-api-key"] = `${process.env.NEXT_PUBLIC_API_KEY}`;
-    config.headers["Accept-Language"] = lang || "en";
+
+    if (!config.isServer) config.headers["Accept-Language"] = lang === "ar" ? "ar-EG" : "en-US"; // ar-EG, en-US
 
     return config;
   },

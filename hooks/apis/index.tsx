@@ -40,6 +40,7 @@ export const useGetTimeSlots = () => {
   return useQuery({
     queryKey: ["time-slots"],
     queryFn: () => GET_TIME_SLOTS(),
+    staleTime: 0,
   });
 };
 

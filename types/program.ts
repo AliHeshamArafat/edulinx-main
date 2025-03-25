@@ -18,14 +18,55 @@ export interface Program {
   description_Ar: string;
   description_Localized: string;
   note: string;
+  enrolledStudents: number;
   ranking: number;
   photo: string;
   fieldUuid: string;
   fieldName: string;
+  field: {
+    uuid: string;
+    dateCreated: string;
+    name_En: string;
+    name_Ar: string;
+    name_Localized: string;
+    logo: string;
+  };
   universityUuid: string;
   universityName: string;
-  programAbout: any[]; // You can extend this type based on actual data
-  programRequirement: any[]; // You can extend this type based on actual data
+  universityLogo: string;
+  university: {
+    uuid: string;
+    dateCreated: string;
+    name_En: string;
+    name_Ar: string;
+    name_Localized: string;
+    description_En: string;
+    description_Ar: string;
+    description_Localized: string;
+    entryLevel: string;
+    ranking: number;
+    longitude: number;
+    latitude: number;
+    logo: string;
+    photo: string;
+    url: string;
+    countryUuid: string;
+    countryName: string;
+    country: {
+      uuid: string;
+      dateCreated: string;
+      name_En: string;
+      name_Ar: string;
+      name_Localized: string;
+      abreviation: string;
+      logo: string;
+    };
+    requirements: [];
+    ratingAndReviews: [];
+  };
+  programAbout: [];
+  programRequirement: [];
+  ratingAndReview: [];
 }
 
 export interface ProgramsResponse {
@@ -34,12 +75,13 @@ export interface ProgramsResponse {
   data: {
     result: Program[];
     totalCount: number;
+    genericTotalCount: number;
   };
-} 
+}
 
 export enum DegreeType {
   Bachelor = "Bachelor",
   Masters = "Masters",
   Associate = "Associate",
-  Doctorate = "Doctorate"
+  Doctorate = "Doctorate",
 }

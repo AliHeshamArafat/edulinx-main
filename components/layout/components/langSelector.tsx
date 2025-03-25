@@ -7,6 +7,7 @@ import { useLocale } from "next-intl";
 import Image from "next/image";
 import usFlag from "@/assets/svgs/us-flag.svg";
 import egFlag from "@/assets/svgs/eg-flag.svg";
+import { setCookie } from "@/services/cookies";
 
 export default function LangSelector() {
   const pathname = usePathname();
@@ -24,6 +25,7 @@ export default function LangSelector() {
     // Replace the locale segment in the pathname
     const newPathname = pathname.replace(`/${locale}`, `/${key}`);
     router.push(newPathname);
+    setCookie("lang", key);
   };
 
   return (
@@ -31,13 +33,7 @@ export default function LangSelector() {
       <ButtonComp types="ghost" className="border-[1px] border-gray-300 p-2 rounded-lg">
         <span className="flex items-center">
           <span className="rounded-full w-5 h-5 flex items-center justify-center overflow-hidden">
-            <Image
-              src={currentLanguage.flag}
-              alt={currentLanguage.label}
-              width={20}
-              height={20}
-              className="object-cover"
-            />
+            <Image src={currentLanguage.flag} alt={currentLanguage.label} width={20} height={20} className="object-cover" />
           </span>
           <span className="ml-2 text-sm">{currentLanguage.key.toUpperCase()}</span>
         </span>

@@ -48,6 +48,7 @@ export default function Universities() {
   } = useSearch<University>({
     apiHook: useGetUniversities,
     filterConfig,
+    pageSize: 6,
   });
 
   return (
