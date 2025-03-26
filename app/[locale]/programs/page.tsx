@@ -29,7 +29,7 @@ export default function Programs() {
       label: "Program Type",
       placeholder: "All Programs",
       queryKey: ["program-types"],
-      queryFn: () => GET_CATEGORIES(),
+      queryFn: () => GET_CATEGORIES({}),
       transformData: (response: any) =>
         response.data.result.map((type: Category) => ({
           value: type.uuid,

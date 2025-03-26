@@ -63,7 +63,7 @@ export const useGetCountries = () => {
 export const useGetCategories = () => {
   return useQuery({
     queryKey: ["categories"],
-    queryFn: () => GET_CATEGORIES(),
+    queryFn: () => GET_CATEGORIES({}),
   });
 };
 
