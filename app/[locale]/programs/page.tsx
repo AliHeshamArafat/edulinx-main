@@ -65,7 +65,7 @@ export default function Programs() {
         onSearch={handleSearch}
         onPageChange={handlePageChange}
         currentPage={currentPage}
-        pageSize={pageSize}
+        pageSize={pageSize ?? undefined}
         filters={filters}
         filterValues={filterValues}
         onFilterChange={onFilterChange}

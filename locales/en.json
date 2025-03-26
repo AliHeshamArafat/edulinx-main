@@ -8,6 +8,20 @@
     "heroSection_title": "Hi {name}, Let's Find Your Course!",
     "login": "Login",
     "register": "Register",
-    "blog": "Blog"
+    "blog": "Blog",
+    "search": "Search",
+    "profile": "Profile",
+    "search_placeholder": "Search programs, universities...",
+    "view_all": "View All",
+    "programs_suggestions": "Programs Suggestions",
+    "learn_now": "Learn Now",
+    "year": "year",
+    "categories": "Categories",
+    "suggested_universities": "Suggested Universities",
+    "worldwide": "worldwide",
+    "top": "Top",
+    "search_for_program": "Search for a program",
+    "no_programs_found": "No programs found",
+    "all_rights_reserved": "All rights reserved"
   }
 }

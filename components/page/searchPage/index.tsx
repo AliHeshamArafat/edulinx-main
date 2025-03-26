@@ -30,6 +30,8 @@ interface SearchPageProps<T> {
   onFilterChange: (key: string) => (value: string) => void;
   isFiltersLoading: boolean;
   searchBarPlaceholder?: string;
+  customList?: (data: any) => React.ReactNode;
+  defaultSearchQuery?: string;
 }
 
 export default function SearchPage<T>({
@@ -47,6 +49,8 @@ export default function SearchPage<T>({
   onFilterChange,
   isFiltersLoading,
   searchBarPlaceholder = "Search programs...",
+  customList,
+  defaultSearchQuery,
 }: SearchPageProps<T>) {
   return (
     <div>
@@ -60,6 +64,7 @@ export default function SearchPage<T>({
             className="md:max-w-full mt-10"
             onSearch={(value) => onSearch(value)}
             onChange={(e) => e.target.value === "" && onSearch("")}
+            defaultSearchQuery={defaultSearchQuery}
           />
 
           <div className="mt-6">
@@ -74,14 +79,18 @@ export default function SearchPage<T>({
       </div>
 
       <div className="main-container !my-10">
-        <ListPaginationComp
-          data={data}
-          isLoading={isLoading}
-          renderItem={renderItem}
-          onPageChange={onPageChange}
-          currentPage={currentPage}
-          pageSize={pageSize}
-        />
+        {customList ? (
+          <div className="flex flex-col gap-4">{customList(data || [])}</div>
+        ) : (
+          <ListPaginationComp
+            data={data}
+            isLoading={isLoading}
+            renderItem={renderItem}
+            onPageChange={onPageChange}
+            currentPage={currentPage}
+            pageSize={pageSize}
+          />
+        )}
       </div>
     </div>
   );

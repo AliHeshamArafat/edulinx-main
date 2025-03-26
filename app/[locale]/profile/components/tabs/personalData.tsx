@@ -5,7 +5,8 @@ import useFormData from "../form/useFormData";
 import { useGetProfile } from "@/hooks/apis";
 import PersonalDataSkeleton from "@/components/skeletons/personalDataSkeleton";
 import { UPDATE_PROFILE } from "@/apis";
-
+import { useEffect } from "react";
+import { setUserAction } from "@/app/store/actions/authActions";
 export default function PersonalData() {
   const { formFields } = useFormData();
   const { data: profile, isLoading, refetch } = useGetProfile();
@@ -16,6 +17,10 @@ export default function PersonalData() {
       refetch?.();
     });
   };
+
+  useEffect(() => {
+    if (profile?.data) setUserAction(profile?.data);
+  }, [profile?.data]);
 
   if (isLoading) return <PersonalDataSkeleton />;
 

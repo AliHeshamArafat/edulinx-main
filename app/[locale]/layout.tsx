@@ -47,7 +47,7 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
   };
 
   return (
-    <html lang={locale}>
+    <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <NextIntlClientProvider>
           <QueryProvider>

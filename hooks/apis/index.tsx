@@ -11,6 +11,11 @@ import {
   GET_BLOG_BY_ID,
   GET_STUDENT_APPLICATIONS,
   GET_PROFILE,
+  GET_PREFERRED_COUNTRIES,
+  GET_PREFERRED_FIELDS,
+  GET_FAVORITE_PROGRAMS,
+  GET_FAVORITE_UNIVERSITIES,
+  GET_SEARCH_DATA,
 } from "@/apis";
 import { ProfileResponse } from "@/types/auth";
 
@@ -99,5 +104,46 @@ export const useGetProfile = () => {
   return useQuery({
     queryKey: ["profile"],
     queryFn: () => GET_PROFILE(),
+    staleTime: 0,
+  });
+};
+
+// get preferred countries
+export const useGetPreferredCountries = () => {
+  return useQuery({
+    queryKey: ["preferred-countries"],
+    queryFn: () => GET_PREFERRED_COUNTRIES(),
+  });
+};
+
+// get preferred fields
+export const useGetPreferredFields = () => {
+  return useQuery({
+    queryKey: ["preferred-fields"],
+    queryFn: () => GET_PREFERRED_FIELDS(),
+  });
+};
+
+// get favorite programs
+export const useGetFavoritePrograms = ({ params }: { params?: QueryParams }) => {
+  return useQuery({
+    queryKey: ["favorite-programs", params],
+    queryFn: () => GET_FAVORITE_PROGRAMS({ params }),
+  });
+};
+
+// get favorite universities
+export const useGetFavoriteUniversities = ({ params }: { params?: QueryParams }) => {
+  return useQuery({
+    queryKey: ["favorite-universities", params],
+    queryFn: () => GET_FAVORITE_UNIVERSITIES({ params }),
+  });
+};
+
+// get search data
+export const useGetSearchData = ({ params }: { params?: QueryParams }) => {
+  return useQuery({
+    queryKey: ["search-data", params],
+    queryFn: () => GET_SEARCH_DATA({ params }),
   });
 };

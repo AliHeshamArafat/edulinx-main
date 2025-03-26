@@ -6,19 +6,20 @@ import { useGetCategories } from "@/hooks/apis";
 import CustomGrid from "../secondStep/customGrid";
 import { Category } from "@/types/category";
 import ButtonComp from "@/components/functional/buttonComp";
-import { useAppSelector } from "@/app/store/store";
+import { ADD_PREFERRED_FIELD } from "@/apis";
+import { useRouter } from "next/navigation";
 
 interface ThirdStepProps {
   setType: (type: LoginType) => void;
 }
 
 export default function ThirdStep({ setType }: ThirdStepProps) {
+  const router = useRouter();
+
   const { data: categories } = useGetCategories();
 
   const [searchQuery, setSearchQuery] = React.useState("");
   const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null);
-
-  const { registerData } = useAppSelector((state) => state.register);
 
   const filteredCategories = React.useMemo(() => {
     return (
@@ -29,12 +30,12 @@ export default function ThirdStep({ setType }: ThirdStepProps) {
   }, [categories, searchQuery]);
 
   const handleContinue = () => {
-    setType("Login");
+    if (selectedCategory) ADD_PREFERRED_FIELD({ params: { fieldUuid: selectedCategory } }).then(() => router.push("/"));
   };
 
   return (
     <div className="w-full max-w-[1000px] mx-auto bg-white rounded-xl p-8 shadow-md">
-      <Header onSkip={() => setType("Login")} onBack={() => setType("SecondStep")} />
+      <Header onSkip={() => router.push("/")} onBack={() => setType("SecondStep")} />
 
       <div className="mb-8">
         <h2 className="text-lg mb-6">What Do You Want To Study?</h2>

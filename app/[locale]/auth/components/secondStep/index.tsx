@@ -11,8 +11,10 @@ import CustomGrid from "./customGrid";
 import ButtonComp from "@/components/functional/buttonComp";
 import useIsMounted from "@/hooks/isMounted";
 import SecondStepSkeleton from "@/components/skeletons/secondStepSkeleton";
-import { setSelectedCountryIdAction, updateRegisterDataAction } from "@/app/store/actions/registerActions";
 import { DegreeType } from "@/types/program";
+import { ADD_PREFERRED_COUNTRY, UPDATE_PROFILE } from "@/apis";
+import { useAppSelector } from "@/app/store/store";
+import { removeNullUndefined } from "@/helpers/general";
 
 interface SecondStepProps {
   setType: (type: LoginType) => void;
@@ -27,6 +29,8 @@ export default function SecondStep({ setType }: SecondStepProps) {
   const [selectedDegree, setSelectedDegree] = React.useState<string | null>(null);
   const [selectedYear, setSelectedYear] = React.useState<string | null>(null);
 
+  const { user } = useAppSelector((state) => state.auth);
+
   const filteredCountries = React.useMemo(() => {
     return (
       countries?.data?.result.filter((country: Country) =>
@@ -36,9 +40,18 @@ export default function SecondStep({ setType }: SecondStepProps) {
   }, [countries, searchQuery]);
 
   const handleContinue = () => {
-    // if (selectedCountry) setSelectedCountryIdAction(selectedCountry);
-    // if (selectedDegree) updateRegisterDataAction({ degreeType: selectedDegree as DegreeType });
-    // if (selectedYear) updateRegisterDataAction({ graduationYear: String(selectedYear) });
+    if (selectedCountry) ADD_PREFERRED_COUNTRY({ params: { countryUuid: selectedCountry } });
+
+    if (selectedDegree || selectedYear)
+      UPDATE_PROFILE({
+        data: removeNullUndefined({
+          degreeType: selectedDegree as DegreeType,
+          graduationYear: selectedYear,
+          email: user?.email,
+          phone: "01234567891", //TODO: needs to be optional from backend
+          fullName: user?.fullName,
+        }),
+      });
 
     setType("ThirdStep");
   };

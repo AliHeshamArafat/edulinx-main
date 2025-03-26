@@ -8,6 +8,20 @@
     "login": "تسجيل الدخول",
     "register": "تسجيل الخروج",
     "heroSection_title": "لنجد لك البرنامج المناسب ,{name} مرحبا",
-    "blog": "المدونة"
+    "blog": "المدونة",
+    "search": "البحث",
+    "profile": "الحساب",
+    "search_placeholder": "ابحث عن برامج, جامعات...",
+    "view_all": "عرض الكل",
+    "programs_suggestions": "أفضل البرامج",
+    "learn_now": "ابدأ التعلم",
+    "year": "سنة",
+    "categories": "التصنيفات",
+    "suggested_universities": "جامعات مقترحة",
+    "worldwide": "عالمي",
+    "top": "أعلى",
+    "search_for_program": "ابحث عن برنامج",
+    "no_programs_found": "لا يوجد برامج",
+    "all_rights_reserved": "جميع الحقوق محفوظة"
   }
 }

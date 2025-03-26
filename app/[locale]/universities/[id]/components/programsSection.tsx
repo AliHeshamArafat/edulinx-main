@@ -1,6 +1,4 @@
 "use client";
-import { GET_PROGRAMS } from "@/apis";
-import SearchBar from "@/app/[locale]/auth/components/secondStep/searchBar";
 import SearchBarComp from "@/app/[locale]/components/searchBarComp";
 import TitleComp from "@/app/[locale]/components/titleComp";
 import ProgramCard from "@/components/ui/programCard";
@@ -10,12 +8,13 @@ import { Program } from "@/types/program";
 import { University } from "@/types/university";
 import { useState } from "react";
 import ProgramCardSkeleton from "@/components/skeletons/programCardSkeleton";
-
+import { useTranslations } from "next-intl";
 interface ProgramsSectionProps {
   university: University;
 }
 
 export default function ProgramsSection({ university }: ProgramsSectionProps) {
+  const t = useTranslations("general");
   const [search, setSearch] = useState("");
 
   const { data: programsResponse, isLoading } = useGetPrograms({
@@ -29,11 +28,11 @@ export default function ProgramsSection({ university }: ProgramsSectionProps) {
 
   return (
     <div className="py-6">
-      <TitleComp title="Programs" />
+      <TitleComp title="programs" />
 
       <SearchBarComp
         className="md:max-w-full mt-10"
-        placeholder="Search for a program"
+        placeholder={t("search_for_program")}
         onSearch={setSearch}
         onChange={(e) => e.target.value === "" && setSearch("")}
       />
@@ -47,14 +46,9 @@ export default function ProgramsSection({ university }: ProgramsSectionProps) {
           </div>
         </div>
       ) : programs?.length === 0 ? (
-        <div className="text-center mt-16 text-gray-500">
-          No programs found
-        </div>
+        <div className="text-center mt-16 text-gray-500">{t("no_programs_found")}</div>
       ) : (
-        <SliderContainer<Program> 
-          items={programs || []} 
-          renderItem={(program) => <ProgramCard program={program} />} 
-        />
+        <SliderContainer<Program> items={programs || []} renderItem={(program) => <ProgramCard program={program} />} />
       )}
     </div>
   );

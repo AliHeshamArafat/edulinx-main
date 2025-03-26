@@ -3,19 +3,25 @@ import React from "react";
 import TitleComp from "./titleComp";
 import { GET_PROGRAMS, GET_SUGGESTED_PROGRAMS } from "@/apis";
 import { Program } from "@/types/program";
-import { cookies } from "next/headers";
 import Link from "next/link";
 import ButtonComp from "@/components/functional/buttonComp";
 import { getServerHeaders } from "@/utils/serverHeaders";
+import { getTranslations } from "next-intl/server";
 
 export default async function ProgramsSuggestions() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
-  const lang = cookieStore.get("lang")?.value;
+  const t = await getTranslations("general");
 
-  const response = token
-    ? await GET_SUGGESTED_PROGRAMS({ config: await getServerHeaders() })
-    : await GET_PROGRAMS({ config: await getServerHeaders() });
+  // First try to get suggested universities if user is authenticated
+  let response = (await GET_SUGGESTED_PROGRAMS({
+    config: await getServerHeaders(),
+  })) || { data: { result: [] } };
+
+  // If no suggested universities or not authenticated, get regular universities
+  if (!response?.data?.result?.length) {
+    response = (await GET_PROGRAMS({
+      config: await getServerHeaders(),
+    })) || { data: { result: [] } };
+  }
 
   const programs = response?.data?.result;
 
@@ -23,7 +29,7 @@ export default async function ProgramsSuggestions() {
     <div className="bg-primary-lighter py-16 hero-section-gap">
       <div className="main-container">
         {/* title */}
-        <TitleComp title={"Programs Suggestions"} />
+        <TitleComp title="programs_suggestions" />
 
         {/* programs suggestions */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-11">
@@ -35,7 +41,7 @@ export default async function ProgramsSuggestions() {
         {/* View All button */}
         <div className="flex justify-center mt-8">
           <Link href="/programs">
-            <ButtonComp className="rounded-lg w-fit md:w-[300px]">View All</ButtonComp>
+            <ButtonComp className="rounded-lg w-fit md:w-[300px]">{t("view_all")}</ButtonComp>
           </Link>
         </div>
       </div>

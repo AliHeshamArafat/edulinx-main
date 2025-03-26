@@ -6,14 +6,20 @@ import globe from "@/assets/images/globe.png";
 import location from "@/assets/images/location.png";
 import FavoriteButton from "./FavoriteButton";
 import { getImageUrl } from "@/services/general";
-
+import { getTranslations } from "next-intl/server";
+import { useTranslations } from "next-intl";
 interface UniversityCardProps {
   university: University;
+  isFavorite?: boolean;
+  onButtonClick?: () => void;
+  className?: string;
 }
 
-export default function UniversityCard({ university }: UniversityCardProps) {
+export default function UniversityCard({ university, isFavorite, onButtonClick, className }: UniversityCardProps) {
+  const t = useTranslations("general");
+
   return (
-    <div className="rounded-lg overflow-hidden bg-white shadow-sm border border-gray-100 hover:shadow-md transition-shadow p-4 relative h-[250px] flex flex-col justify-between">
+    <div className={`rounded-lg overflow-hidden bg-white shadow-sm border border-gray-100 hover:shadow-md transition-shadow p-4 relative h-[250px] flex flex-col justify-between ${className}`}>
       {/* Top Content */}
       <div>
         {/* Header with Logo and Favorite */}
@@ -42,15 +48,17 @@ export default function UniversityCard({ university }: UniversityCardProps) {
                   <Image src={globe} alt="Worldwide Ranking" width={18} height={18} className="text-primary" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[13px] font-[600]">Top {university.ranking}%</span>
-                  <span className="text-gray-500 text-[11px]">worldwide</span>
+                  <span className="text-[13px] font-[600]">
+                    {t("top")} {university.ranking}%
+                  </span>
+                  <span className="text-gray-500 text-[11px]">{t("worldwide")}</span>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Favorite Button */}
-          <FavoriteButton Id={university.uuid} type="university" />
+          <FavoriteButton Id={university.uuid} type="university" initialFavorite={isFavorite} onButtonClick={onButtonClick} />
         </div>
       </div>
 
@@ -64,7 +72,7 @@ export default function UniversityCard({ university }: UniversityCardProps) {
             href={`/universities/${university.uuid}`}
             className="block bg-primary text-white text-center px-4 py-2 rounded-lg hover:bg-primary/90 text-sm"
           >
-            Learn now
+            {t("learn_now")}
           </Link>
         </div>
       </div>

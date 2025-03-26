@@ -3,9 +3,12 @@
 import { useAppSelector } from "@/app/store/store";
 import SearchBarComp from "./searchBarComp";
 import { useTranslations } from "next-intl";
+import { setSearchQueryAction } from "@/app/store/actions/generalActions";
+import { useRouter } from "next/navigation";
 
 export default function HeroSection() {
   const t = useTranslations("general");
+  const router = useRouter();
 
   const { user } = useAppSelector((state) => state.auth);
 
@@ -15,7 +18,12 @@ export default function HeroSection() {
       <h1 className="text-4xl font-bold text-center">{t("heroSection_title", { name: user?.fullName || "" })}</h1>
 
       {/* search bar */}
-      <SearchBarComp />
+      <SearchBarComp
+        onSearch={(e) => {
+          setSearchQueryAction(e);
+          router.push("/search");
+        }}
+      />
     </div>
   );
 }

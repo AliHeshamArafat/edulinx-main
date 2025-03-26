@@ -3,7 +3,7 @@ import apiService from "@/services/api/apiService";
 import FormComp, { MyFormOptions, MyFormProps } from "@/components/form/formComp";
 import { LoginType } from "../../page";
 import { RESET_PASSWORD } from "@/apis";
-
+import Header from "../secondStep/header";
 interface ResetPasswordProps {
   setType?: (type: LoginType) => void;
   className?: string;
@@ -37,6 +37,8 @@ export default function ResetPassword({ setType, className, formCompProps }: Res
 
   return (
     <div className={`w-full max-w-md mx-auto bg-white rounded-xl p-8 shadow-md ${className}`}>
+      <Header hideSkip onBack={() => setType?.("Login")} title="Reset Password" />
+
       <FormComp
         fileds={fields}
         onFinish={onFinish}

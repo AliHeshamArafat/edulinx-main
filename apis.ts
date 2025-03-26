@@ -29,8 +29,8 @@ export const GET_SUGGESTED_PROGRAMS = async ({ config }: { config?: AxiosRequest
 };
 
 // get categories
-export const GET_CATEGORIES = async () => {
-  return apiService.get({ resource: "fields" });
+export const GET_CATEGORIES = async ({ config }: { config?: AxiosRequestConfig }) => {
+  return apiService.get({ resource: "fields", config });
 };
 
 // get universities
@@ -88,14 +88,19 @@ export const ADD_FAVORITE_PROGRAM = async ({ params }: { params: { programUuid: 
   return apiService.post({ resource: `public/favoritePrograms`, params });
 };
 
-// // remove favorite program
-// export const REMOVE_FAVORITE_PROGRAM = async ({ params }: { params: { programUuid: string } }) => {
-//   return apiService.delete({ resource: `public/favoritePrograms`, params });
-// };
+// remove favorite program
+export const REMOVE_FAVORITE_PROGRAM = async ({ id }: { id: string }) => {
+  return apiService.delete({ resource: `public/favoritePrograms`, id });
+};
 
 // add favorite university
 export const ADD_FAVORITE_UNIVERSITY = async ({ params }: { params: { universityUuid: string } }) => {
   return apiService.post({ resource: `public/favoriteUniversities`, params });
+};
+
+// remove favorite university
+export const REMOVE_FAVORITE_UNIVERSITY = async ({ id }: { id: string }) => {
+  return apiService.delete({ resource: `public/favoriteUniversities`, id });
 };
 
 // get blogs
@@ -121,4 +126,39 @@ export const GET_PROFILE = async (): Promise<ProfileResponse | undefined> => {
 // update profile
 export const UPDATE_PROFILE = async ({ data }: { data: any }) => {
   return apiService.put({ resource: `account/profile`, data, config: { headers: { "Content-Type": "multipart/form-data" } } });
+};
+
+//  add preferred country
+export const ADD_PREFERRED_COUNTRY = async ({ params }: { params: { countryUuid: string } }) => {
+  return apiService.post({ resource: `public/preferenceCountries`, params });
+};
+
+// get preferred countries
+export const GET_PREFERRED_COUNTRIES = async () => {
+  return apiService.get({ resource: `public/preferenceCountries` });
+};
+
+// add preferred field
+export const ADD_PREFERRED_FIELD = async ({ params }: { params: { fieldUuid: string } }) => {
+  return apiService.post({ resource: `public/preferenceFields`, params });
+};
+
+// get preferred fields
+export const GET_PREFERRED_FIELDS = async () => {
+  return apiService.get({ resource: `public/preferenceFields` });
+};
+
+// get favorite programs
+export const GET_FAVORITE_PROGRAMS = async ({ params }: { params?: QueryParams }) => {
+  return apiService.get({ resource: `public/favoritePrograms`, params });
+};
+
+// get favorite universities
+export const GET_FAVORITE_UNIVERSITIES = async ({ params }: { params?: QueryParams }) => {
+  return apiService.get({ resource: `public/favoriteUniversities`, params });
+};
+
+//  get search data
+export const GET_SEARCH_DATA = async ({ params }: { params?: QueryParams }) => {
+  return apiService.get({ resource: `public/search`, params });
 };

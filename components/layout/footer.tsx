@@ -5,7 +5,7 @@ import instagramIcon from '@/assets/images/instagram.png';
 import telegramIcon from '@/assets/images/telegram.png';
 import tiktokIcon from '@/assets/images/tiktok.png';
 import youtubeIcon from '@/assets/images/youtube.png';
-
+import { getTranslations } from 'next-intl/server';
 // Define social media links as an array
 const socialLinks = [
   { href: "https://instagram.com", icon: instagramIcon, alt: "Instagram" },
@@ -14,14 +14,15 @@ const socialLinks = [
   { href: "https://youtube.com", icon: youtubeIcon, alt: "YouTube" }
 ];
 
-export default function Footer() {
+export default async function Footer() {
+  const t = await getTranslations("general");
   const currentYear = new Date().getFullYear();
-  
+
   return (
     <footer className="bg-primary text-white py-4 h-[116px] flex items-center justify-center">
       <div className="container mx-auto px-4 flex justify-between items-center">
         <div>
-          <p>©{currentYear} All rights reserved</p>
+          <p>©{currentYear} {t("all_rights_reserved")}</p>
         </div>
         
         <div className="flex space-x-6">

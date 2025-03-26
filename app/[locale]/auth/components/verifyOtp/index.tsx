@@ -1,9 +1,10 @@
 import ButtonComp from "@/components/functional/buttonComp";
 import FormComp, { MyFormOptions } from "@/components/form/formComp";
 import { LoginType } from "../../page";
-import { RESEND_OTP, VERIFY_OTP } from "@/apis";
+import { LOGIN, RESEND_OTP, VERIFY_OTP } from "@/apis";
 import { useAppSelector } from "@/app/store/store";
 import { toast } from "react-toastify";
+import { loginAction } from "@/app/store/actions/authActions";
 interface VerifyOtpProps {
   setType: (type: LoginType) => void;
 }
@@ -29,9 +30,17 @@ export default function VerifyOtp({ setType }: VerifyOtpProps) {
 
     if (vals?.credential === "") return toast.error("please signup first");
 
+    // verify otp
     VERIFY_OTP({ data: vals }).then((res) => {
       if (!res?.success) return;
-      setType("SecondStep");
+
+      // login so you can get token to add preferred country and other data
+      LOGIN({ username: registerData?.email || "", password: registerData?.password || "" }).then((res) => {
+        if (!res.success) return;
+
+        loginAction(res?.data);
+        setType("SecondStep");
+      });
     });
   };
 

@@ -1,5 +1,5 @@
 import { dispatch } from "../store";
-import { setCredentials, logout } from "../features/authSlice";
+import { setCredentials, logout, setUser } from "../features/authSlice";
 import { login, logout as logoutService } from "@/services/auth";
 
 export const loginAction = (data: any) => {
@@ -11,4 +11,8 @@ export const loginAction = (data: any) => {
 export const logoutAction = (redirect?: boolean) => {
   logoutService(redirect);
   dispatch(logout());
+};
+
+export const setUserAction = (user: any) => {
+  dispatch(setUser(user));
 };

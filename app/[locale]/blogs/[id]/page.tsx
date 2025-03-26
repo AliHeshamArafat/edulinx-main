@@ -10,8 +10,8 @@ export default async function BlogDetails({ params }: { params: { id: string } }
   const response = await GET_BLOG_BY_ID({ id });
   const responseRelatedBlogs = await GET_BLOGS({});
 
-  const blog = response.data as Blog;
-  const relatedBlogs = responseRelatedBlogs.data.result as Blog[];
+  const blog = response?.data as Blog;
+  const relatedBlogs = responseRelatedBlogs?.data.result as Blog[];
 
   const breadcrumbItems = [{ label: "Blogs", href: "/blogs" }, { label: blog.title_Localized }];
 

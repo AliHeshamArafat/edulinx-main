@@ -30,7 +30,7 @@ export default function ProfileSidebar({ activeSection, onSectionChange }: Profi
         { id: "password", label: "Change Password", icon: lock },
         { id: "preferences", label: "Preferences and Interests", icon: graduation },
         { id: "favorites", label: "Favorite", icon: heart },
-        { id: "history", label: "Activity History", icon: clock },
+        // { id: "history", label: "Activity History", icon: clock },
       ],
     },
     {

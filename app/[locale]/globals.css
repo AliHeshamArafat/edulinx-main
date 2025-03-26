@@ -35,6 +35,8 @@
 
   --navbar-height: 80px;
   --app-max-width: 1280px;
+
+  --card-height: 350px;
 }
 
 @theme {
@@ -73,6 +75,7 @@
   --navbar-height: 80px;
   --app-max-width: 1280px;
 
+  --card-height: 350px;
 }
 
 .main-container {

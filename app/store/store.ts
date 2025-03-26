@@ -5,6 +5,7 @@ import { combineReducers } from "redux";
 
 import authReducer from "./features/authSlice";
 import registerReducer from "./features/registerSlice";
+import generalReducer from "./features/generalSlice";
 
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
@@ -17,6 +18,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   auth: authReducer,
   register: registerReducer,
+  general: generalReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

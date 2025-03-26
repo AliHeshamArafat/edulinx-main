@@ -8,6 +8,7 @@ import useIsMounted from "@/hooks/isMounted";
 import LoginSkeleton from "@/components/skeletons/loginSkeleton";
 import { loginAction } from "@/app/store/actions/authActions";
 import { redirect } from "next/navigation";
+import ButtonComp from "@/components/functional/buttonComp";
 
 interface LoginCompProps {
   setType: (type: LoginType) => void;
@@ -39,7 +40,14 @@ export default function LoginComp({ setType }: LoginCompProps) {
         showSubmit
         submitText="Login"
         submitStyleTw="w-full bg-primary text-white py-3 rounded-lg font-medium"
-      />
+      >
+        {/* Forgot Password Link */}
+        {/* <div className="text-right -mt-4 mb-3">
+          <ButtonComp onClick={() => setType("ResetPassword")} className="hover:underline" types="ghost">
+            Forgot Password?
+          </ButtonComp>
+        </div> */}
+      </FormComp>
 
       {/* Social login section */}
       <SocialLoginSection />

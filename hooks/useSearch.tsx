@@ -18,15 +18,25 @@ interface UseSearchProps<T> {
   params?: Record<string, any>;
   filterConfig?: FilterConfig[];
   disableHook?: boolean;
+  disablePagination?: boolean;
+  defaultSearchQuery?: string;
 }
 
-export default function useSearch<T>({ pageSize = 3, apiHook, params = {}, filterConfig = [], disableHook = false }: UseSearchProps<T>) {
-  const [searchQuery, setSearchQuery] = useState("");
+export default function useSearch<T>({
+  pageSize = 3,
+  apiHook,
+  params = {},
+  filterConfig = [],
+  disableHook = false,
+  disablePagination = false,
+  defaultSearchQuery = "",
+}: UseSearchProps<T>) {
+  const [searchQuery, setSearchQuery] = useState(defaultSearchQuery);
   const [currentPage, setCurrentPage] = useState(1);
   const [filterValues, setFilterValues] = useState<Record<string, string>>({});
 
   // Only create queries for filters that need API calls and when hook is not disabled
-  const filterQueries = !disableHook 
+  const filterQueries = !disableHook
     ? filterConfig
         .filter((filter) => filter.queryFn)
         .map((filter) =>
@@ -87,15 +97,17 @@ export default function useSearch<T>({ pageSize = 3, apiHook, params = {}, filte
   };
 
   // Main data query - skip if hook is disabled
-  const { data, isLoading } = !disableHook ? apiHook({
-    params: removeNullUndefined({
-      pageNo: currentPage,
-      rowCount: pageSize,
-      keyword: searchQuery,
-      ...filterValues,
-      ...params,
-    }),
-  }) : { data: null, isLoading: false };
+  const { data, isLoading } = !disableHook
+    ? apiHook({
+        params: removeNullUndefined({
+          pageNo: disablePagination ? null : currentPage,
+          rowCount: disablePagination ? null : pageSize,
+          keyword: searchQuery,
+          ...filterValues,
+          ...params,
+        }),
+      })
+    : { data: null, isLoading: false };
 
   const handleSearch = (value: string) => {
     setSearchQuery(value);
