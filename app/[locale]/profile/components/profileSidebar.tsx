@@ -13,6 +13,7 @@ import clock from "@/assets/images/clock.png";
 import guard from "@/assets/images/guard.png";
 import bell from "@/assets/images/bell.png";
 import { logoutAction } from "@/app/store/actions/authActions";
+import { useTranslations } from "next-intl";
 
 interface ProfileSidebarProps {
   activeSection: string;
@@ -21,23 +22,25 @@ interface ProfileSidebarProps {
 
 export default function ProfileSidebar({ activeSection, onSectionChange }: ProfileSidebarProps) {
   const { data: profile, isLoading, refetch } = useGetProfile();
+  const t = useTranslations("general");
+
 
   const menuItems = [
     {
-      title: "General",
+      title: t("general"),
       items: [
-        { id: "personal", label: "Personal Data", icon: avatar },
-        { id: "password", label: "Change Password", icon: lock },
-        { id: "preferences", label: "Preferences and Interests", icon: graduation },
-        { id: "favorites", label: "Favorite", icon: heart },
+        { id: "personal", label: t("personal_data"), icon: avatar },
+        { id: "password", label: t("change_password"), icon: lock },
+        { id: "preferences", label: t("preferences_and_interests"), icon: graduation },
+        { id: "favorites", label: t("favorite"), icon: heart },
         // { id: "history", label: "Activity History", icon: clock },
       ],
     },
     {
-      title: "Settings",
+      title: t("settings"),
       items: [
-        { id: "privacy", label: "Privacy & Policy", icon: guard },
-        { id: "notifications", label: "Notification", icon: bell },
+        { id: "privacy", label: t("privacy_and_policy"), icon: guard },
+        { id: "notifications", label: t("notification"), icon: bell },
       ],
     },
   ];
@@ -83,7 +86,7 @@ export default function ProfileSidebar({ activeSection, onSectionChange }: Profi
           className="w-full flex items-center gap-3 px-4 py-2 text-primary hover:bg-gray-50 rounded-lg cursor-pointer"
         >
           <Image src={power} alt="Logout" width={30} height={30} className="text-primary" />
-          <span>Log Out</span>
+          <span>{t("log_out")}</span>
         </button>
       </div>
     </div>

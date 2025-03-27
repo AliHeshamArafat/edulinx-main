@@ -9,12 +9,14 @@ import Favourites from "./components/tabs/favourites";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import PrivacyPolicy from "./components/tabs/privacyPolicy";
 import Notifications from "./components/tabs/notifications";
+import { useTranslations } from "next-intl";
 type ProfileSection = "personal" | "password" | "preferences" | "favorites" | "history" | "privacy" | "notifications";
 
 export default function Profile() {
+  const t = useTranslations("general");
   const [activeSection, setActiveSection] = useState<ProfileSection>("personal");
 
-  const breadcrumb = [{ label: "Profile", href: "" }];
+  const breadcrumb = [{ label: t("profile"), href: "" }];
 
   return (
     <div className="main-container !py-8">

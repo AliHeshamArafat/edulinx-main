@@ -71,7 +71,7 @@ export default function MobileMenu({
                 }}
                 className="w-full rounded-lg"
               >
-                Login
+                {t("login")}
               </ButtonComp>
             </div>
           )}

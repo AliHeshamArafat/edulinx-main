@@ -18,16 +18,16 @@ export default function AuthPage() {
   const [type, setType] = useState<LoginType>("Login");
 
   // redirect to home page if user is authenticated
-  useEffect(() => {
-    if (isAuthenticated) redirect("/");
-  }, [isAuthenticated]);
+  // useEffect(() => {
+  //   if (isAuthenticated) redirect("/");
+  // }, [isAuthenticated]);
 
   // reset type when unmount
   useEffect(() => {
     return () => setType("Login");
   }, []);
 
-  if (isAuthenticated) return null;
+  // if (isAuthenticated) return null;
 
   return (
     <div className="flex justify-center items-center min-h-screen py-10 bg-primary">

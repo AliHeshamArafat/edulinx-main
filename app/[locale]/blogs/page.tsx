@@ -1,18 +1,16 @@
 import { GET_BLOGS } from "@/apis";
-import { redirect } from 'next/navigation';
+import { redirect } from "next/navigation";
 import React from "react";
 import Hero from "./components/hero";
 import BlogList from "./components/blogList";
-
+import { getServerHeaders } from "@/utils/serverHeaders";
 interface BlogsProps {
   searchParams: {
     page?: string;
   };
 }
 
-export default async function Blogs({ 
-  searchParams: { page } 
-}: BlogsProps) {
+export default async function Blogs({ searchParams: { page } }: BlogsProps) {
   const pageSize = 9;
   const currentPage = Number(page) || 1;
 
@@ -21,6 +19,7 @@ export default async function Blogs({
       pageNo: currentPage,
       rowCount: pageSize,
     },
+    config: await getServerHeaders(),
   });
 
   // Calculate max pages
@@ -34,10 +33,11 @@ export default async function Blogs({
   return (
     <div className="main-container !my-10">
       <Hero />
-      <BlogList 
+      <BlogList
         data={{
           result: response?.data?.result,
           totalCount: response?.data?.genericTotalCount,
+          genericTotalCount: response?.data?.genericTotalCount,
         }}
         currentPage={currentPage}
         pageSize={pageSize}

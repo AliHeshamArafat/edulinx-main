@@ -5,7 +5,7 @@ import AboutProgram from "./components/AboutProgram";
 import Requirements from "./components/Requirements";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import { getServerHeaders } from "@/utils/serverHeaders";
-
+import { getTranslations } from "next-intl/server";
 interface PageProps {
   params: Promise<{
     id: string;
@@ -15,8 +15,9 @@ interface PageProps {
 export default async function ProgramDetails({ params }: PageProps) {
   const { id } = await params;
   const program = await GET_PROGRAM_BY_ID({ id, config: await getServerHeaders() });
+  const t = await getTranslations("general");
 
-  const breadcrumbItems = [{ label: "Programs", href: "/programs" }, { label: "Program Details" }];
+  const breadcrumbItems = [{ label: t("programs"), href: "/programs" }, { label: t("program_details") }];
 
   return (
     <div className="">

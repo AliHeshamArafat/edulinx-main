@@ -6,6 +6,7 @@ import FavoriteButton from "./FavoriteButton";
 import { getImageUrl } from "@/services/general";
 import location from "@/assets/images/location.png";
 import { useTranslations } from "next-intl";
+import { useRTL } from "@/hooks/useRTL";
 
 interface ProgramCardProps {
   program: Program;
@@ -23,6 +24,8 @@ export default function ProgramCard({
   onButtonClick,
 }: ProgramCardProps) {
   const t = useTranslations("general");
+  const { isRTL } = useRTL();
+
 
   // Fallback image for programs without photos
   const fallbackImage = "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2000&auto=format&fit=crop";
@@ -34,7 +37,7 @@ export default function ProgramCard({
       <div className="relative h-48 w-full">
         <Image src={getImageUrl(program?.photo) || fallbackImage} alt={program?.title_Localized} fill className="object-cover" />
         {/* Program type badge  */}
-        <div className="absolute top-3 left-3">
+        <div className={`absolute top-3 ${!isRTL ? "left-3" : "right-3"}`}>
           <span className="bg-purple-100 text-primary px-3 py-1 rounded-full text-sm">{program?.type}</span>
         </div>
 

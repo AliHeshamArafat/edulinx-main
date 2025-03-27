@@ -4,16 +4,19 @@ import Hero from "../components/hero";
 import { Blog } from "@/types/blog";
 import RelatedBlogs from "./components/relatedBlogs";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
+import { getTranslations } from "next-intl/server";
+import { getServerHeaders } from "@/utils/serverHeaders";
 
 export default async function BlogDetails({ params }: { params: { id: string } }) {
+  const t = await getTranslations("general");
   const { id } = params;
-  const response = await GET_BLOG_BY_ID({ id });
-  const responseRelatedBlogs = await GET_BLOGS({});
+  const response = await GET_BLOG_BY_ID({ id, config: await getServerHeaders() });
+  const responseRelatedBlogs = await GET_BLOGS({ config: await getServerHeaders() });
 
   const blog = response?.data as Blog;
   const relatedBlogs = responseRelatedBlogs?.data.result as Blog[];
 
-  const breadcrumbItems = [{ label: "Blogs", href: "/blogs" }, { label: blog.title_Localized }];
+  const breadcrumbItems = [{ label: t("blogs"), href: "/blogs" }, { label: blog.title_Localized }];
 
   return (
     <div className="main-container !my-10">

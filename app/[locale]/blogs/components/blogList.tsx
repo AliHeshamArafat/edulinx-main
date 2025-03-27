@@ -9,6 +9,7 @@ interface BlogListProps {
   data: {
     result: Blog[];
     totalCount: number;
+    genericTotalCount: number;
   };
   currentPage: number;
   pageSize: number;

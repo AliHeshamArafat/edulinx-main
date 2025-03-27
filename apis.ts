@@ -104,13 +104,13 @@ export const REMOVE_FAVORITE_UNIVERSITY = async ({ id }: { id: string }) => {
 };
 
 // get blogs
-export const GET_BLOGS = async ({ params }: { params?: QueryParams }) => {
-  return apiService.get({ resource: `public/blogs`, params });
+export const GET_BLOGS = async ({ params, config }: { params?: QueryParams; config?: AxiosRequestConfig }) => {
+  return apiService.get({ resource: `public/blogs`, params, config });
 };
 
 // get blog by id
-export const GET_BLOG_BY_ID = async ({ id }: { id: string }) => {
-  return apiService.get({ resource: `public/blogs/${id}` });
+export const GET_BLOG_BY_ID = async ({ id, config }: { id: string; config?: AxiosRequestConfig }) => {
+  return apiService.get({ resource: `public/blogs/${id}`, config });
 };
 
 // get student applications
@@ -133,6 +133,11 @@ export const ADD_PREFERRED_COUNTRY = async ({ params }: { params: { countryUuid:
   return apiService.post({ resource: `public/preferenceCountries`, params });
 };
 
+// remove preferred country
+export const REMOVE_PREFERRED_COUNTRY = async ({ id }: { id: string }) => {
+  return apiService.delete({ resource: `public/preferenceCountries`, id });
+};
+
 // get preferred countries
 export const GET_PREFERRED_COUNTRIES = async () => {
   return apiService.get({ resource: `public/preferenceCountries` });
@@ -141,6 +146,11 @@ export const GET_PREFERRED_COUNTRIES = async () => {
 // add preferred field
 export const ADD_PREFERRED_FIELD = async ({ params }: { params: { fieldUuid: string } }) => {
   return apiService.post({ resource: `public/preferenceFields`, params });
+};
+
+// remove preferred field
+export const REMOVE_PREFERRED_FIELD = async ({ id }: { id: string }) => {
+  return apiService.delete({ resource: `public/preferenceFields`, id });
 };
 
 // get preferred fields

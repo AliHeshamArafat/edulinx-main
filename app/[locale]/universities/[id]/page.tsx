@@ -4,6 +4,7 @@ import HeroSection from "./components/heroSection";
 import DetailsSection from "./components/detailsSection";
 import { getServerHeaders } from "@/utils/serverHeaders";
 import ProgramsSection from "./components/programsSection";
+import { getTranslations } from "next-intl/server";
 
 interface PageProps {
   params: Promise<{
@@ -13,11 +14,13 @@ interface PageProps {
 
 export default async function UniversityDetails({ params }: PageProps) {
   const { id } = await params;
+  const t = await getTranslations("general");
+
 
   const response = await GET_UNIVERSITY_BY_ID({ id, config: await getServerHeaders() });
   const university = response?.data;
 
-  const breadcrumbItems = [{ label: "Universities", href: "/universities" }, { label: "University Details" }];
+  const breadcrumbItems = [{ label: t("universities"), href: "/universities" }, { label: t("university_details") }];
 
   return (
     <div className="main-container py-6">

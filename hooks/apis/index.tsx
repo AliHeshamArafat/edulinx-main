@@ -129,6 +129,7 @@ export const useGetFavoritePrograms = ({ params }: { params?: QueryParams }) => 
   return useQuery({
     queryKey: ["favorite-programs", params],
     queryFn: () => GET_FAVORITE_PROGRAMS({ params }),
+    staleTime: 0,
   });
 };
 
@@ -137,6 +138,7 @@ export const useGetFavoriteUniversities = ({ params }: { params?: QueryParams })
   return useQuery({
     queryKey: ["favorite-universities", params],
     queryFn: () => GET_FAVORITE_UNIVERSITIES({ params }),
+    staleTime: 0,
   });
 };
 

@@ -6,8 +6,10 @@ import { Program } from "@/types/program";
 import Image from "next/image";
 import TimeSlotsModal from "./timeSlotsModal";
 import { getImageUrl } from "@/services/general";
+import { useTranslations } from "next-intl";
 
 export default function ProgramHeader({ program }: { program: Program }) {
+  const t = useTranslations("general");
   const { renderModal, showModal, hideModal } = useModal({ modalProps: { footer: null } });
 
   const handleApplyNow = () => {
@@ -31,18 +33,20 @@ export default function ProgramHeader({ program }: { program: Program }) {
 
         {/* Fees */}
         <div className="mb-4">
-          <div className="text-lg md:text-xl font-semibold">${program.fees.toLocaleString()}/year</div>
+          <div className="text-lg md:text-xl font-semibold">
+            {program.fees.toLocaleString()}/{t("year")}
+          </div>
         </div>
 
         {/* Apply Now Button */}
         <ButtonComp className="w-full md:w-auto rounded-lg" onClick={handleApplyNow}>
-          Apply Now
+          {t("apply_now")}
         </ButtonComp>
       </div>
 
       {/* image */}
       <div className="relative w-full md:w-[400px] h-[200px] md:h-[250px] rounded-lg overflow-hidden">
-        <Image src={getImageUrl(program.photo)} alt={program.title_Localized} fill className="object-cover" />
+        <Image src={getImageUrl(program.photo) || ""} alt={program.title_Localized} fill className="object-cover" />
       </div>
 
       {renderModal()}

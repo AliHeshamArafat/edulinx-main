@@ -9,13 +9,16 @@ import { useGetPrograms } from "@/hooks/apis";
 import { GET_CATEGORIES, GET_UNIVERSITIES } from "@/apis";
 import { Category } from "@/types/category";
 import { University } from "@/types/university";
+import { useTranslations } from "next-intl";
 
 export default function Programs() {
+  const t = useTranslations("general");
+
   const filterConfig = [
     {
       key: "universityUuid",
-      label: "University",
-      placeholder: "All Universities",
+      label: t("university"),
+      placeholder: t("all_universities"),
       queryKey: ["universities"],
       queryFn: () => GET_UNIVERSITIES({}),
       transformData: (response: any) =>
@@ -26,8 +29,8 @@ export default function Programs() {
     },
     {
       key: "fieldUuid",
-      label: "Program Type",
-      placeholder: "All Programs",
+      label: t("program_type"),
+      placeholder: t("all_programs"),
       queryKey: ["program-types"],
       queryFn: () => GET_CATEGORIES({}),
       transformData: (response: any) =>
@@ -57,8 +60,8 @@ export default function Programs() {
   return (
     <div className="">
       <SearchPage<Program>
-        title="Find Your Program"
-        description="Discover Your Programs Worldwide"
+        title={t("find_your_program")}
+        description={t("discover_your_programs_worldwide")}
         data={data}
         isLoading={isLoading}
         renderItem={(program: Program) => <ProgramCard program={program} />}
@@ -70,6 +73,7 @@ export default function Programs() {
         filterValues={filterValues}
         onFilterChange={onFilterChange}
         isFiltersLoading={isFiltersLoading}
+        searchBarPlaceholder={t("search_for_program")}
       />
     </div>
   );

@@ -6,29 +6,30 @@ import tickIcon from "@/assets/images/tick.png";
 import idIcon from "@/assets/images/id card.png";
 import mailIcon from "@/assets/images/mail.png";
 import ButtonComp from "@/components/functional/buttonComp";
-
+import { useTranslations } from "next-intl";
 interface SuccessModalProps {
   onDone: () => void;
 }
 
 export default function SuccessModal({ onDone }: SuccessModalProps) {
   const { user } = useAppSelector((state) => state.auth);
+  const t = useTranslations("general");
 
   const personalInfo = [
     {
-      label: "Name",
+      label: t("name"),
       value: user.fullName,
       icon: user.fullName.charAt(0),
       isLetter: true,
     },
     {
-      label: "Student ID",
+      label: t("student_id"),
       value: user.uuid,
       icon: idIcon,
       isLetter: false,
     },
     {
-      label: "Mail",
+      label: t("mail"),
       value: user.email,
       icon: mailIcon,
       isLetter: false,
@@ -46,18 +47,18 @@ export default function SuccessModal({ onDone }: SuccessModalProps) {
 
       {/* Success Message */}
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-2">Success</h2>
-        <p className="text-gray-600">Congratulations, Timeslot Is Booked!</p>
+        <h2 className="text-2xl font-semibold text-gray-800 mb-2">{t("success")}</h2>
+        <p className="text-gray-600">{t("congratulations_timeslot_is_booked")}</p>
       </div>
 
       {/* Done Button */}
       <ButtonComp className="w-full rounded-lg mb-10" onClick={onDone}>
-        Done
+        {t("done")}
       </ButtonComp>
 
       {/* Personal Information */}
       <div className="space-y-6">
-        <h3 className="text-lg font-semibold mb-4">Personal Information</h3>
+        <h3 className="text-lg font-semibold mb-4">{t("personal_information")}</h3>
 
         <div className="space-y-4">
           {personalInfo.map((item, index) => (

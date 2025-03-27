@@ -28,7 +28,7 @@ export default function ProgramsSection({ university }: ProgramsSectionProps) {
 
   return (
     <div className="py-6">
-      <TitleComp title="programs" />
+      <TitleComp title={t("programs")} />
 
       <SearchBarComp
         className="md:max-w-full mt-10"

@@ -29,7 +29,7 @@ export default async function ProgramsSuggestions() {
     <div className="bg-primary-lighter py-16 hero-section-gap">
       <div className="main-container">
         {/* title */}
-        <TitleComp title="programs_suggestions" />
+        <TitleComp title={t("programs_suggestions")} />
 
         {/* programs suggestions */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-11">

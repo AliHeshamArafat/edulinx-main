@@ -28,7 +28,7 @@ export default async function UniverstiesSection() {
   return (
     <div className="bg-primary-lighter py-16">
       <div className="main-container">
-        <TitleComp title={response?.data?.result?.length > 0 ? "suggested_universities" : "universities"} />
+        <TitleComp title={t(response?.data?.result?.length > 0 ? "suggested_universities" : "universities")} />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-11">
           {universities?.slice(0, 3).map((university: University) => (

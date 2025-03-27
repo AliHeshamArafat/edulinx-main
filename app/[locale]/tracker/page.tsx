@@ -10,17 +10,18 @@ import { Category } from "@/types/category";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/app/store/store";
 import { toast } from "react-toastify";
-
+import { useTranslations } from "next-intl";
 export default function Tracker() {
   const router = useRouter();
   const { isAuthenticated } = useAppSelector((state) => state.auth);
   const hasShownToast = useRef(false);
+  const t = useTranslations("general");
 
   const filterConfig = [
     {
       key: "fieldUuid",
-      label: "Program Type",
-      placeholder: "All Programs",
+      label: t("program_type"),
+      placeholder: t("all_programs"),
       queryKey: ["program-types"],
       queryFn: () => GET_CATEGORIES({}),
       transformData: (response: any) =>
@@ -63,8 +64,8 @@ export default function Tracker() {
   return (
     <div className="">
       <SearchPage<StudentApplication>
-        title="Student Applications"
-        description="Track your student applications"
+        title={t("student_applications")}
+        description={t("track_your_student_applications")}
         data={data}
         isLoading={isLoading}
         renderItem={(studentApplication: StudentApplication) => <StudentAppCard application={studentApplication} />}
@@ -76,7 +77,7 @@ export default function Tracker() {
         filterValues={filterValues}
         onFilterChange={onFilterChange}
         isFiltersLoading={isFiltersLoading}
-        searchBarPlaceholder="Search applications..."
+        searchBarPlaceholder={t("search_applications")}
       />
     </div>
   );

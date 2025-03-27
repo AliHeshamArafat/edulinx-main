@@ -15,11 +15,11 @@ interface ThirdStepProps {
 
 export default function ThirdStep({ setType }: ThirdStepProps) {
   const router = useRouter();
-
   const { data: categories } = useGetCategories();
 
   const [searchQuery, setSearchQuery] = React.useState("");
-  const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null);
+  const [selectedCategories, setSelectedCategories] = React.useState<string[]>([]);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   const filteredCategories = React.useMemo(() => {
     return (
@@ -29,8 +29,32 @@ export default function ThirdStep({ setType }: ThirdStepProps) {
     );
   }, [categories, searchQuery]);
 
-  const handleContinue = () => {
-    if (selectedCategory) ADD_PREFERRED_FIELD({ params: { fieldUuid: selectedCategory } }).then(() => router.push("/"));
+  const handleCategorySelect = (uuid: string) => {
+    setSelectedCategories(prev => {
+      if (prev.includes(uuid)) {
+        return prev.filter(id => id !== uuid);
+      }
+      return [...prev, uuid];
+    });
+  };
+
+  const handleContinue = async () => {
+    if (!selectedCategories.length) return;
+
+    setIsSubmitting(true);
+    try {
+      await Promise.all(
+        selectedCategories.map(fieldUuid =>
+          ADD_PREFERRED_FIELD({ params: { fieldUuid } })
+        )
+      );
+      router.push("/");
+    } catch (error) {
+      console.error("Error adding preferred fields:", error);
+      // You might want to add error handling/notification here
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -42,10 +66,19 @@ export default function ThirdStep({ setType }: ThirdStepProps) {
         <SearchBar value={searchQuery} onChange={setSearchQuery} placeholder="Search programs..." />
       </div>
 
-      <CustomGrid<Category> data={filteredCategories} selectedItem={selectedCategory} onSelect={setSelectedCategory} />
+      <CustomGrid<Category> 
+        data={filteredCategories} 
+        selectedItems={selectedCategories} 
+        onSelect={handleCategorySelect} 
+      />
 
       <div className="flex justify-center mt-8">
-        <ButtonComp className="rounded-lg w-auto md:w-[350px]" disabled={!selectedCategory} onClick={handleContinue}>
+        <ButtonComp 
+          className="rounded-lg w-auto md:w-[350px]" 
+          disabled={!selectedCategories.length || isSubmitting}
+          onClick={handleContinue}
+          loading={isSubmitting}
+        >
           Continue
         </ButtonComp>
       </div>

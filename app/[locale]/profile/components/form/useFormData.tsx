@@ -1,6 +1,8 @@
 import { MyFormOptions } from "@/components/form/formComp";
+import { useTranslations } from "next-intl";
 
 const useFormData = () => {
+  const t = useTranslations("general");
   const styleProps = {
     style: {
       borderRadius: 15,
@@ -12,34 +14,34 @@ const useFormData = () => {
   const formFields: MyFormOptions = [
     {
       name: "fullName",
-      label: "Full Name",
+      label: t("full_name"),
       type: "input",
       innerProps: {
-        placeholder: "Full Name",
+        placeholder: t("full_name"),
         ...styleProps,
       },
-      rules: [{ required: true, message: "Full Name is required" }],
+      rules: [{ required: true, message: t("full_name_is_required") }],
     },
     {
       name: "email",
-      label: "Email",
+      label: t("email"),
       type: "input",
       innerProps: {
-        placeholder: "Email",
+        placeholder: t("email"),
         type: "email",
         ...styleProps,
       },
-      rules: [{ required: true, message: "Email is required" }],
+      rules: [{ required: true, message: t("email_is_required") }],
     },
     {
       name: "phone",
-      label: "Phone",
+      label: t("phone"),
       type: "input",
       innerProps: {
-        placeholder: "Phone",
+        placeholder: t("phone"),
         ...styleProps,
       },
-      rules: [{ required: true, message: "Phone is required" }],
+      rules: [{ required: true, message: t("phone_is_required") }],
     },
   ];
 

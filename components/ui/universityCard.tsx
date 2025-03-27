@@ -6,8 +6,8 @@ import globe from "@/assets/images/globe.png";
 import location from "@/assets/images/location.png";
 import FavoriteButton from "./FavoriteButton";
 import { getImageUrl } from "@/services/general";
-import { getTranslations } from "next-intl/server";
 import { useTranslations } from "next-intl";
+
 interface UniversityCardProps {
   university: University;
   isFavorite?: boolean;
@@ -19,7 +19,9 @@ export default function UniversityCard({ university, isFavorite, onButtonClick, 
   const t = useTranslations("general");
 
   return (
-    <div className={`rounded-lg overflow-hidden bg-white shadow-sm border border-gray-100 hover:shadow-md transition-shadow p-4 relative h-[250px] flex flex-col justify-between ${className}`}>
+    <div
+      className={`rounded-lg overflow-hidden bg-white shadow-sm border border-gray-100 hover:shadow-md transition-shadow p-4 relative h-[250px] flex flex-col justify-between ${className}`}
+    >
       {/* Top Content */}
       <div>
         {/* Header with Logo and Favorite */}

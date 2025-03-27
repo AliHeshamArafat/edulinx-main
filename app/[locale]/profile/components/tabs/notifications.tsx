@@ -4,8 +4,10 @@ import { Switch } from "antd";
 import { useState } from "react";
 import { UPDATE_PROFILE } from "@/apis";
 import { useGetProfile } from "@/hooks/apis";
+import { useTranslations } from "next-intl";
 
 export default function Notifications() {
+  const t = useTranslations("general");
   const { data: profile, refetch } = useGetProfile();
 
   const [loading, setLoading] = useState({
@@ -30,27 +32,27 @@ export default function Notifications() {
   const notificationItems = [
     {
       key: "notificationStatus",
-      title: "Receive notifications for status updates",
-      description: "Receive notifications for status updates, deadlines, or program recommendations.",
+      title: t("receive_notifications_for_status_updates"),
+      description: t("receive_notifications_for_status_updates_description"),
       checked: profile?.data?.notificationStatus,
     },
     {
       key: "notificationDdl",
-      title: "Receive notifications for deadlines",
-      description: "Receive notifications for status updates, deadlines, or program recommendations.",
+      title: t("receive_notifications_for_deadlines"),
+      description: t("receive_notifications_for_deadlines_description"),
       checked: profile?.data?.notificationDdl,
     },
     {
       key: "notificationRecommendation",
-      title: "Receive notifications for program recommendations",
-      description: "Receive notifications for status updates, deadlines, or program recommendations.",
+      title: t("receive_notifications_for_program_recommendations"),
+      description: t("receive_notifications_for_program_recommendations_description"),
       checked: profile?.data?.notificationRecommendation,
     },
   ];
 
   return (
     <div className="bg-white rounded-lg p-6">
-      <h2 className="text-xl font-semibold mb-6">Preferences</h2>
+      <h2 className="text-xl font-semibold mb-6">{t("preferences")}</h2>
 
       <div className="space-y-6">
         {notificationItems.map((item) => (

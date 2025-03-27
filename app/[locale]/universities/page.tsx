@@ -6,15 +6,17 @@ import UniversityCard from "@/components/ui/universityCard";
 import { University } from "@/types/university";
 import useSearch from "@/hooks/useSearch";
 import { useGetUniversities } from "@/hooks/apis";
-import { GET_CATEGORIES, GET_COUNTRIES, GET_UNIVERSITIES } from "@/apis";
-import { Category } from "@/types/category";
+import { GET_COUNTRIES } from "@/apis";
 import { Country } from "@/types/country";
+import { useTranslations } from "next-intl";
+
 export default function Universities() {
+  const t = useTranslations("general");
   const filterConfig = [
     {
       key: "countryUuid",
-      label: "Country",
-      placeholder: "Select Country",
+      label: t("country"),
+      placeholder: t("select_country"),
       queryKey: ["countries"],
       queryFn: () => GET_COUNTRIES(),
       transformData: (response: any) =>
@@ -25,11 +27,11 @@ export default function Universities() {
     },
     {
       key: "nameEnDescending",
-      label: "Sort By",
-      placeholder: "Select Sort By",
+      label: t("sort_by"),
+      placeholder: t("select_sort_by"),
       options: [
-        { value: "true", label: "Name Ascending" },
-        { value: "false", label: "Name Descending" },
+        { value: "true", label: t("name_ascending") },
+        { value: "false", label: t("name_descending") },
       ],
     },
   ];
@@ -54,8 +56,8 @@ export default function Universities() {
   return (
     <div className="">
       <SearchPage<University>
-        title="Find Universities"
-        description="Discover and compare universities worldwide"
+        title={t("find_universities")}
+        description={t("discover_and_compare_universities_worldwide")}
         data={data}
         isLoading={isLoading}
         renderItem={(university: University) => <UniversityCard university={university} />}
@@ -67,7 +69,7 @@ export default function Universities() {
         filterValues={filterValues}
         onFilterChange={onFilterChange}
         isFiltersLoading={isFiltersLoading}
-        searchBarPlaceholder="Search universities..."
+        searchBarPlaceholder={t("search_universities")}
       />
     </div>
   );

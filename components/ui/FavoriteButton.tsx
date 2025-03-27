@@ -5,13 +5,14 @@ import FavIcon from "@/assets/images/Fav.png";
 import ButtonComp from "../functional/buttonComp";
 import { ADD_FAVORITE_PROGRAM, ADD_FAVORITE_UNIVERSITY, REMOVE_FAVORITE_PROGRAM, REMOVE_FAVORITE_UNIVERSITY } from "@/apis";
 import { HeartFilled, HeartOutlined } from "@ant-design/icons";
-
+import { useRTL } from "@/hooks/useRTL";
 interface FavoriteButtonProps {
   Id: string;
   initialFavorite?: boolean;
   type: "program" | "university";
   onButtonSuccess?: () => void;
   onButtonClick?: () => void;
+  className?: string;
 }
 
 export default function FavoriteButton({
@@ -20,7 +21,9 @@ export default function FavoriteButton({
   type,
   onButtonSuccess,
   onButtonClick,
+  className,
 }: FavoriteButtonProps) {
+  const { isRTL } = useRTL();
   const [isFavorite, setIsFavorite] = useState(initialFavorite);
 
   const toggleFavorite = () => {
@@ -58,7 +61,7 @@ export default function FavoriteButton({
   return (
     <ButtonComp
       onClick={toggleFavorite}
-      className="absolute top-3 right-3 rounded-full transition-colors cursor-pointer"
+      className={`absolute top-3 ${isRTL ? "left-3" : "right-3"} rounded-full transition-colors cursor-pointer ${className}`}
       types="ghost"
     >
       {isFavorite ? (

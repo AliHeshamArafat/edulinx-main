@@ -2,14 +2,14 @@
 
 import { useGetTimeSlots } from "@/hooks/apis";
 import React, { useState } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import dayjs from "dayjs";
 import ButtonComp from "@/components/functional/buttonComp";
 import { CREATE_STUDENT_APPLICATION } from "@/apis";
 import { useAppSelector } from "@/app/store/store";
 import SuccessModal from "./successModal";
 import CalendarSection from "./calendarSection";
+import { useTranslations, useLocale } from "next-intl";
+import 'dayjs/locale/ar'; // Import any additional locales you need
 
 interface TimeSlot {
   uuid: string;
@@ -27,13 +27,18 @@ interface TimeSlotsModalProps {
 type ModalType = "TIME_SLOTS" | "SUCCESS";
 
 export default function TimeSlotsModal({ programUuid, hideModal }: TimeSlotsModalProps) {
+  const locale = useLocale();
   const { data } = useGetTimeSlots();
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | null>(null);
   const [modalType, setModalType] = useState<ModalType>("TIME_SLOTS");
+  const t = useTranslations("general");
 
   const { user } = useAppSelector((state) => state.auth);
   const timeSlots = data?.data?.result || [];
+
+  // Set dayjs locale
+  dayjs.locale(locale);
 
   const getAvailableTimeSlotsForDate = (date: Date) => {
     return timeSlots.filter((slot: TimeSlot) => {
@@ -69,18 +74,18 @@ export default function TimeSlotsModal({ programUuid, hideModal }: TimeSlotsModa
 
   return (
     <div className="p-6">
-      <h2 className="text-xl font-semibold mb-6">Available Time Slots</h2>
+      <h2 className="text-xl font-semibold mb-6">{t("available_time_slots")}</h2> 
 
       <div className="grid md:grid-cols-2 gap-6">
         {/* Calendar */}
         <div>
-          <h3 className="text-sm font-medium mb-2">Select Date</h3>
+          <h3 className="text-sm font-medium mb-2">{t("select_date")}</h3>
           <CalendarSection timeSlots={timeSlots} handleChange={handleDateChange} />
         </div>
 
         {/* Time Slots */}
         <div>
-          <h3 className="text-sm font-medium mb-2">Select Time</h3>
+          <h3 className="text-sm font-medium mb-2">{t("select_time")}</h3>
           {selectedDate && (
             <div className="space-y-2">
               <p className="text-sm text-gray-600 mb-4">{dayjs(selectedDate).format("MMMM D, YYYY")}</p>
@@ -99,7 +104,7 @@ export default function TimeSlotsModal({ programUuid, hideModal }: TimeSlotsModa
                       <span>
                         {dayjs(slot.startTime).format("hh:mm a")} - {dayjs(slot.endTime).format("hh:mm a")}
                       </span>
-                      <span className="text-sm">Available</span>
+                      <span className="text-sm">{t("available")}</span>
                     </div>
                   </div>
                 ))}
@@ -111,7 +116,7 @@ export default function TimeSlotsModal({ programUuid, hideModal }: TimeSlotsModa
 
       <div className="mt-6 flex justify-center">
         <ButtonComp disabled={!selectedTimeSlot} className="rounded-lg md:w-[350px]" onClick={handleConfirm}>
-          Confirm
+          {t("confirm")}
         </ButtonComp>
       </div>
     </div>

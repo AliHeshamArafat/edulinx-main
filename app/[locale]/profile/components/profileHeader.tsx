@@ -6,6 +6,7 @@ import cameraIcon from "@/assets/images/camera.png";
 import useUploadAntd from "@/hooks/useUplaodAntd";
 import useModal from "@/hooks/useModal";
 import FormComp from "@/components/form/formComp";
+import { useTranslations } from "next-intl";
 
 interface ProfileHeaderProps {
   profile: ProfileData;
@@ -14,8 +15,10 @@ interface ProfileHeaderProps {
 }
 
 export default function ProfileHeader({ profile, loading, refetch }: ProfileHeaderProps) {
+  const t = useTranslations("general");
+
   const modalProps = {
-    title: "Edit Profile Picture",
+    title: t("edit_profile_picture"),
     footer: null,
     // style: { maxWidth: isMobile ? "90%" : "700px", width: isMobile ? "90%" : "100%", top: "5%" },
   };
@@ -45,7 +48,7 @@ export default function ProfileHeader({ profile, loading, refetch }: ProfileHead
     <div className="flex flex-col items-center mb-6">
       <div className="relative w-24 h-24 mb-3">
         <Image
-          src={getImageUrl(profile?.profilePicturePath || "")}
+          src={getImageUrl(profile?.profilePicturePath) || ""}
           alt={profile?.fullName || ""}
           fill
           className="rounded-full object-cover"

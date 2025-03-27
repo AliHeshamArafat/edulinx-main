@@ -7,7 +7,10 @@ import PersonalDataSkeleton from "@/components/skeletons/personalDataSkeleton";
 import { UPDATE_PROFILE } from "@/apis";
 import { useEffect } from "react";
 import { setUserAction } from "@/app/store/actions/authActions";
+import { useTranslations } from "next-intl";
+
 export default function PersonalData() {
+  const t = useTranslations("general");
   const { formFields } = useFormData();
   const { data: profile, isLoading, refetch } = useGetProfile();
 
@@ -26,7 +29,7 @@ export default function PersonalData() {
 
   return (
     <div className="bg-white rounded-lg p-6">
-      <h2 className="text-xl font-semibold mb-6">Personal Data</h2>
+      <h2 className="text-xl font-semibold mb-6">{t("personal_data")}</h2>
 
       {/* <h3 className="text-sm font-medium mb-4">Contact Details</h3> */}
 
@@ -36,7 +39,7 @@ export default function PersonalData() {
         onFinish={onSubmit}
         layout="vertical"
         showSubmit
-        submitText="Save"
+        submitText={t("save")}
         submitStyleTw="w-full bg-primary text-white py-3 rounded-lg font-medium mt-3 max-w-[200px]"
       />
     </div>

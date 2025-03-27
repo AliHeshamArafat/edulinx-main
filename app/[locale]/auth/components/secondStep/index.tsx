@@ -25,9 +25,10 @@ export default function SecondStep({ setType }: SecondStepProps) {
   const isMounted = useIsMounted();
 
   const [searchQuery, setSearchQuery] = React.useState("");
-  const [selectedCountry, setSelectedCountry] = React.useState<string | null>(null);
+  const [selectedCountries, setSelectedCountries] = React.useState<string[]>([]);
   const [selectedDegree, setSelectedDegree] = React.useState<string | null>(null);
   const [selectedYear, setSelectedYear] = React.useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   const { user } = useAppSelector((state) => state.auth);
 
@@ -39,21 +40,47 @@ export default function SecondStep({ setType }: SecondStepProps) {
     );
   }, [countries, searchQuery]);
 
-  const handleContinue = () => {
-    if (selectedCountry) ADD_PREFERRED_COUNTRY({ params: { countryUuid: selectedCountry } });
+  const handleCountrySelect = (uuid: string) => {
+    setSelectedCountries(prev => {
+      if (prev.includes(uuid)) {
+        return prev.filter(id => id !== uuid);
+      }
+      return [...prev, uuid];
+    });
+  };
 
-    if (selectedDegree || selectedYear)
-      UPDATE_PROFILE({
-        data: removeNullUndefined({
-          degreeType: selectedDegree as DegreeType,
-          graduationYear: selectedYear,
-          email: user?.email,
-          phone: "01234567891", //TODO: needs to be optional from backend
-          fullName: user?.fullName,
-        }),
-      });
+  const handleContinue = async () => {
+    setIsSubmitting(true);
+    try {
+      // Handle country preferences
+      if (selectedCountries.length > 0) {
+        await Promise.all(
+          selectedCountries.map(countryUuid =>
+            ADD_PREFERRED_COUNTRY({ params: { countryUuid } })
+          )
+        );
+      }
 
-    setType("ThirdStep");
+      // Handle profile update
+      if (selectedDegree || selectedYear) {
+        await UPDATE_PROFILE({
+          data: removeNullUndefined({
+            degreeType: selectedDegree as DegreeType,
+            graduationYear: selectedYear,
+            email: user?.email,
+            phone: "01234567891", //TODO: needs to be optional from backend
+            fullName: user?.fullName,
+          }),
+        });
+      }
+
+      setType("ThirdStep");
+    } catch (error) {
+      console.error("Error updating preferences:", error);
+      // You might want to add error handling/notification here
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (isLoading || !isMounted) return <SecondStepSkeleton />;
@@ -67,7 +94,11 @@ export default function SecondStep({ setType }: SecondStepProps) {
         <SearchBar value={searchQuery} onChange={setSearchQuery} />
       </div>
 
-      <CustomGrid<Country> data={filteredCountries} selectedItem={selectedCountry} onSelect={setSelectedCountry} />
+      <CustomGrid<Country> 
+        data={filteredCountries} 
+        selectedItems={selectedCountries} 
+        onSelect={handleCountrySelect} 
+      />
 
       <DegreePreference selectedDegree={selectedDegree} onSelect={setSelectedDegree} />
       <GraduationYear selectedYear={selectedYear} onSelect={setSelectedYear} />
@@ -75,8 +106,9 @@ export default function SecondStep({ setType }: SecondStepProps) {
       <div className="flex justify-center mt-8">
         <ButtonComp
           className="rounded-lg w-auto md:w-[350px]"
-          disabled={!selectedCountry && !selectedDegree && !selectedYear}
+          disabled={(!selectedCountries.length && !selectedDegree && !selectedYear) || isSubmitting}
           onClick={handleContinue}
+          loading={isSubmitting}
         >
           Continue
         </ButtonComp>

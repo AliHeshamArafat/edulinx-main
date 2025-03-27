@@ -1,6 +1,8 @@
 import { MyFormOptions } from "@/components/form/formComp";
+import { useTranslations } from "next-intl";
 
 const useFormDataChangePass = () => {
+  const t = useTranslations("general");
   const styleProps = {
     style: {
       borderRadius: 15,
@@ -12,20 +14,20 @@ const useFormDataChangePass = () => {
   const formFields: MyFormOptions = [
     {
       name: "newPassword",
-      label: "New Password",
+      label: t("new_password"),
       type: "input",
       innerProps: {
-        placeholder: "New Password",
+        placeholder: t("new_password"),
         type: "password",
         ...styleProps,
       },
     },
     {
       name: "confirmNewPassword",
-      label: "Confirm New Password",
+      label: t("confirm_new_password"),
       type: "input",
       innerProps: {
-        placeholder: "Confirm New Password",
+        placeholder: t("confirm_new_password"),
         type: "password",
         ...styleProps,
       },

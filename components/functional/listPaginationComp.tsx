@@ -1,6 +1,6 @@
 import React from "react";
 import { Pagination } from "antd";
-
+import { useTranslations } from "next-intl";
 interface ListPaginationCompProps<T> {
   data?: {
     result: T[];
@@ -24,12 +24,14 @@ export default function ListPaginationComp<T>({
   pageSize = 12,
   hideNumberOfResults = false,
 }: ListPaginationCompProps<T>) {
+  const t = useTranslations("general");
+
   return (
     <div>
       {/* number of results */}
       {!hideNumberOfResults && (
         <div className="text-sm text-text-small mb-10 -mt-5">
-          Showing <span className="font-medium text-black">{data?.totalCount} results</span>
+          {t("showing")} <span className="font-medium text-black">{data?.totalCount} {t("results")}</span>
         </div>
       )}
 

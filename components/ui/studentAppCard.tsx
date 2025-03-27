@@ -1,16 +1,16 @@
 import React from "react";
 import Image from "next/image";
-import dayjs from "dayjs";
 import Link from "next/link";
 import { StudentApplication } from "@/types/student";
 import { getImageUrl } from "@/services/general";
 import location from "@/assets/images/location.png";
-
+import { useTranslations } from "next-intl";
 interface StudentAppCardProps {
   application: StudentApplication;
 }
 
 export default function StudentAppCard({ application }: StudentAppCardProps) {
+  const t = useTranslations("general");
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Submitted":
@@ -77,7 +77,7 @@ export default function StudentAppCard({ application }: StudentAppCardProps) {
           <div>
             <p className="text-primary font-semibold">
               {application.program?.fees.toLocaleString()} {application.program?.feesCurrency}
-              <span className="text-gray-500 text-sm font-normal">/year</span>
+              <span className="text-gray-500 text-sm font-normal">/{t("year")}</span>
             </p>
           </div>
 
@@ -85,7 +85,7 @@ export default function StudentAppCard({ application }: StudentAppCardProps) {
             href={`/programs/${application.programUuid}`}
             className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90"
           >
-            View Details
+            {t("view_details")}
           </Link>
         </div>
       </div>
