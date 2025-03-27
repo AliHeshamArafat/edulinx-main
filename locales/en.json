@@ -101,6 +101,9 @@
     "receive_notifications_for_deadlines": "Receive notifications for deadlines",
     "receive_notifications_for_deadlines_description": "Receive notifications for status updates, deadlines, or program recommendations.",
     "receive_notifications_for_program_recommendations": "Receive notifications for program recommendations",
-    "receive_notifications_for_program_recommendations_description": "Receive notifications for status updates, deadlines, or program recommendations."
+    "receive_notifications_for_program_recommendations_description": "Receive notifications for status updates, deadlines, or program recommendations.",
+    "search_programs_universities": "Search programs, universities...",
+    "search_results": "Search Results",
+    "no_results_found": "No results found"
   }
 }

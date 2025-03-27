@@ -11,7 +11,7 @@ interface BlogsProps {
 }
 
 export default async function Blogs({ searchParams: { page } }: BlogsProps) {
-  const pageSize = 9;
+  const pageSize = 1;
   const currentPage = Number(page) || 1;
 
   const response = await GET_BLOGS({

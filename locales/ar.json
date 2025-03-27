@@ -79,7 +79,7 @@
     "change_password": "تغيير كلمة المرور",
     "preferences_and_interests": "التفضيلات والاهتمامات",
     "favorite": "المفضلة",
-    "privacy_and_policy": "الخصوصية والسياسة",
+    "privacy_and_policy": "الخصوصية والسياسة", 
     "notification": "الإشعارات",
     "log_out": "تسجيل الخروج",
     "save": "حفظ",
@@ -101,6 +101,9 @@
     "receive_notifications_for_deadlines": "استلام الإشعارات للموعد النهائي",
     "receive_notifications_for_deadlines_description": "استلام الإشعارات للتحديثات, الموعد النهائي, أو البرامج المقترحة.",
     "receive_notifications_for_program_recommendations": "استلام الإشعارات للبرامج المقترحة",
-    "receive_notifications_for_program_recommendations_description": "استلام الإشعارات للتحديثات, الموعد النهائي, أو البرامج المقترحة."
+    "receive_notifications_for_program_recommendations_description": "استلام الإشعارات للتحديثات, الموعد النهائي, أو البرامج المقترحة.",
+    "search_programs_universities": "ابحث عن برامج, جامعات...",
+    "search_results": "نتيجة البحث",
+    "no_results_found": "لا يوجد نتيجة"
   }
 }

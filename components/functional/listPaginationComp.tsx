@@ -1,6 +1,8 @@
 import React from "react";
-import { Pagination } from "antd";
-import { useTranslations } from "next-intl";
+import { Pagination, ConfigProvider } from "antd";
+import { useTranslations, useLocale } from "next-intl";
+import { useRTL } from "@/hooks/useRTL";
+
 interface ListPaginationCompProps<T> {
   data?: {
     result: T[];
@@ -25,13 +27,17 @@ export default function ListPaginationComp<T>({
   hideNumberOfResults = false,
 }: ListPaginationCompProps<T>) {
   const t = useTranslations("general");
+  const { isRTL } = useRTL();
 
   return (
     <div>
       {/* number of results */}
       {!hideNumberOfResults && (
         <div className="text-sm text-text-small mb-10 -mt-5">
-          {t("showing")} <span className="font-medium text-black">{data?.totalCount} {t("results")}</span>
+          {t("showing")}{" "}
+          <span className="font-medium text-black">
+            {data?.totalCount} {t("results")}
+          </span>
         </div>
       )}
 
@@ -47,13 +53,15 @@ export default function ListPaginationComp<T>({
       {/* Pagination */}
       {data && data.genericTotalCount > 0 && (
         <div className="flex justify-center mt-8">
-          <Pagination
-            current={currentPage || 1}
-            total={data.genericTotalCount}
-            pageSize={pageSize}
-            onChange={onPageChange}
-            showSizeChanger={false}
-          />
+          <ConfigProvider direction={isRTL ? "rtl" : "ltr"}>
+            <Pagination
+              current={currentPage || 1}
+              total={data.genericTotalCount}
+              pageSize={pageSize}
+              onChange={onPageChange}
+              showSizeChanger={false}
+            />
+          </ConfigProvider>
         </div>
       )}
     </div>

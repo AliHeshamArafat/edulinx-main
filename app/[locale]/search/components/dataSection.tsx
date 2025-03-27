@@ -5,6 +5,7 @@ import UniversityCard from "@/components/ui/universityCard";
 import { Program } from "@/types/program";
 import { University } from "@/types/university";
 import React from "react";
+import { useTranslations } from "next-intl";
 
 interface SearchItem {
   type: "university" | "program";
@@ -12,6 +13,7 @@ interface SearchItem {
 }
 
 export default function DataSection({ isLoading, data }: { isLoading: boolean; data: any }) {
+  const t = useTranslations("general");
   const combineResults = (data: any): SearchItem[] => {
     const combined: SearchItem[] = [];
 
@@ -43,7 +45,7 @@ export default function DataSection({ isLoading, data }: { isLoading: boolean; d
 
   return combinedResults.length > 0 ? (
     <SliderContainer<SearchItem>
-      title="Search Results"
+      title={t("search_results")}
       items={combinedResults}
       renderItem={(item) =>
         item.type === "university" ? (
@@ -54,6 +56,6 @@ export default function DataSection({ isLoading, data }: { isLoading: boolean; d
       }
     />
   ) : (
-    <div className="text-center text-gray-500 py-12">No results found</div>
+    <div className="text-center text-gray-500 py-12">{t("no_results_found")}</div>
   );
 }
