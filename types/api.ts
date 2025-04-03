@@ -1,5 +1,7 @@
 export type ApiResponse<T> = {
   data: T;
-  code: string;
+  code?: string;
   success: boolean;
+  message?: string;
+  status?: number;
 };

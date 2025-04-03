@@ -28,8 +28,14 @@ export default async function ProgramDetails({ params }: PageProps) {
         <div className="">
           <ProgramHeader program={program?.data} />
           <ProgramInfo program={program?.data} />
-          {/* <AboutProgram program={program.data} />
-          <Requirements program={program.data} /> */}
+          <div className="flex flex-col md:flex-row gap-4 pb-4">
+            <div className="w-full md:w-2/3">
+              <AboutProgram program={program?.data} />
+            </div>
+            <div className="w-full md:w-1/3">
+              <Requirements program={program?.data} />
+            </div>
+          </div>
         </div>
       </div>
     </div>

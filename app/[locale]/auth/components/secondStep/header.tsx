@@ -1,5 +1,7 @@
-import { ArrowLeftOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import ButtonComp from "@/components/functional/buttonComp";
+import { useRTL } from "@/hooks/useRTL";
+import { useTranslations } from "next-intl";
 
 interface HeaderProps {
   onSkip?: () => void;
@@ -9,21 +11,55 @@ interface HeaderProps {
   title?: string;
 }
 
-export default function Header({ onSkip, onBack, hideSkip = false, hideTitle = false, title = "Start Your Study Journey" }: HeaderProps) {
+export default function Header({
+  onSkip,
+  onBack,
+  hideSkip = false,
+  hideTitle = false,
+  title,
+}: HeaderProps) {
+  const { isRTL } = useRTL();
+  const t = useTranslations("general");
+
+  const backButton = (
+    <ButtonComp onClick={onBack} className="bg-transparent border border-gray-300 rounded-lg max-w-7">
+      <ArrowLeftOutlined className="text-sm" style={{ color: "black" }} />
+    </ButtonComp>
+  );
+
+  const titleElement = !hideTitle && <h1 className="text-xl font-medium text-primary ml-2">{title}</h1>;
+
+  const skipButton = !hideSkip && (
+    <ButtonComp onClick={onSkip} types="ghost">
+      {t("skip")}
+    </ButtonComp>
+  );
+
   return (
     <div className="flex justify-between items-center mb-8">
+      {/* Left side content */}
       <div className="flex items-center gap-2">
-        <ButtonComp onClick={onBack} className="bg-transparent border border-gray-300 rounded-lg max-w-7">
-          <ArrowLeftOutlined className="text-sm" style={{ color: "black" }} />
-        </ButtonComp>
-        {!hideTitle && <h1 className="text-xl font-medium text-primary ml-2">{title}</h1>}
+        {!isRTL ? (
+          <>
+            {backButton}
+            {titleElement}
+          </>
+        ) : (
+          <>{skipButton || <div></div>}</>
+        )}
       </div>
 
-      {!hideSkip && (
-        <ButtonComp onClick={onSkip} types="ghost">
-          Skip
-        </ButtonComp>
-      )}
+      {/* Right side content */}
+      <div className="flex items-center gap-2">
+        {isRTL ? (
+          <>
+            {titleElement}
+            {backButton}
+          </>
+        ) : (
+          <>{skipButton}</>
+        )}
+      </div>
     </div>
   );
 }

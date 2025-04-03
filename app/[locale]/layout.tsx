@@ -38,13 +38,10 @@ interface RootLayoutProps {
 
 export default async function RootLayout({ children, params }: RootLayoutProps) {
   const { locale } = await params;
-  if (!hasLocale(routing.locales, locale)) {
-    notFound();
-  }
 
-  const theme = {
-    token: { colorPrimary: "#8d6499" },
-  };
+  if (!hasLocale(routing.locales, locale)) notFound();
+
+  const theme = { token: { colorPrimary: "#8d6499" } };
 
   return (
     <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>

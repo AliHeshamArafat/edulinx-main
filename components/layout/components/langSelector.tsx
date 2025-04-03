@@ -36,11 +36,9 @@ export default function LangSelector() {
           <span className="rounded-full w-5 h-5 flex items-center justify-center overflow-hidden">
             <Image src={currentLanguage.flag} alt={currentLanguage.label} width={20} height={20} className="object-cover" />
           </span>
-          <span className={`${isRTL ? 'mr-2' : 'ml-2'} text-sm`}>
-            {currentLanguage.key.toUpperCase()}
-          </span>
+          <span className={`${isRTL ? "mr-2" : "ml-2"} text-sm`}>{currentLanguage.key.toUpperCase()}</span>
         </span>
-        <DownOutlined className={isRTL ? 'mr-2' : 'ml-2'} />
+        <DownOutlined className={isRTL ? "mr-2" : "ml-2"} />
       </ButtonComp>
     </Dropdown>
   );

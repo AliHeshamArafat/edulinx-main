@@ -1,21 +1,32 @@
 import { Program } from "@/types/program";
+import { getTranslations } from "next-intl/server";
+interface ProgramAboutSection {
+  uuid: string;
+  type: string;
+  typeLocalized: string;
+  description_Localized: string;
+}
 
-export default function AboutProgram({ program }: { program: Program }) {
+export default async function AboutProgram({ program }: { program: Program }) {
+  const t = await getTranslations("general");
   return (
-    <div className="mb-8">
-      <h2 className="text-lg font-semibold mb-4">About Program</h2>
+    <div className="mb-8 bg-[#fbfbfd] p-4 rounded-lg h-full">
+      <h2 className="text-lg font-semibold mb-4">{t("about_program")}</h2>
+      
+      {/* Main Program Description */}
       <p className="text-gray-600 mb-6">{program.description_Localized}</p>
       
-      <h3 className="font-medium mb-3">Learning Outcomes</h3>
-      <ul className="space-y-2">
-        <li className="flex items-start gap-2">
-          <svg className="w-5 h-5 text-gray-400 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-          </svg>
-          <span className="text-gray-600">Develop strategic thinking and decision-making abilities</span>
-        </li>
-        {/* Add more learning outcomes */}
-      </ul>
+      {/* Additional Program Details */}
+      {program.programAbout && program.programAbout.length > 0 && (
+        <div className="space-y-4">
+          {(program.programAbout as ProgramAboutSection[]).map((section) => (
+            <div key={section.uuid} className="pt-4">
+              <h3 className="font-medium mb-2">{section.typeLocalized}</h3>
+              <p className="text-gray-600">{section.description_Localized}</p>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
-} 
+}

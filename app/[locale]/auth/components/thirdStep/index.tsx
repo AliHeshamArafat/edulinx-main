@@ -8,6 +8,7 @@ import { Category } from "@/types/category";
 import ButtonComp from "@/components/functional/buttonComp";
 import { ADD_PREFERRED_FIELD } from "@/apis";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 interface ThirdStepProps {
   setType: (type: LoginType) => void;
@@ -16,6 +17,8 @@ interface ThirdStepProps {
 export default function ThirdStep({ setType }: ThirdStepProps) {
   const router = useRouter();
   const { data: categories } = useGetCategories();
+  const t = useTranslations("general");
+
 
   const [searchQuery, setSearchQuery] = React.useState("");
   const [selectedCategories, setSelectedCategories] = React.useState<string[]>([]);
@@ -62,8 +65,8 @@ export default function ThirdStep({ setType }: ThirdStepProps) {
       <Header onSkip={() => router.push("/")} onBack={() => setType("SecondStep")} />
 
       <div className="mb-8">
-        <h2 className="text-lg mb-6">What Do You Want To Study?</h2>
-        <SearchBar value={searchQuery} onChange={setSearchQuery} placeholder="Search programs..." />
+        <h2 className="text-lg mb-6">{t("what_do_you_want_to_study")}</h2>
+        <SearchBar value={searchQuery} onChange={setSearchQuery} placeholder={t("search_programs")} />
       </div>
 
       <CustomGrid<Category> 
@@ -79,7 +82,7 @@ export default function ThirdStep({ setType }: ThirdStepProps) {
           onClick={handleContinue}
           loading={isSubmitting}
         >
-          Continue
+          {t("continue")}
         </ButtonComp>
       </div>
     </div>

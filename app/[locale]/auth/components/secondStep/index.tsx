@@ -15,7 +15,7 @@ import { DegreeType } from "@/types/program";
 import { ADD_PREFERRED_COUNTRY, UPDATE_PROFILE } from "@/apis";
 import { useAppSelector } from "@/app/store/store";
 import { removeNullUndefined } from "@/helpers/general";
-
+import { useTranslations } from "next-intl";
 interface SecondStepProps {
   setType: (type: LoginType) => void;
 }
@@ -23,6 +23,7 @@ interface SecondStepProps {
 export default function SecondStep({ setType }: SecondStepProps) {
   const { data: countries, isLoading } = useGetCountries();
   const isMounted = useIsMounted();
+  const t = useTranslations("general");
 
   const [searchQuery, setSearchQuery] = React.useState("");
   const [selectedCountries, setSelectedCountries] = React.useState<string[]>([]);
@@ -87,11 +88,11 @@ export default function SecondStep({ setType }: SecondStepProps) {
 
   return (
     <div className="w-full max-w-[1000px] mx-auto bg-white rounded-xl p-8 shadow-md">
-      <Header onSkip={() => setType("ThirdStep")} onBack={() => setType("Register")} />
+      <Header onSkip={() => setType("ThirdStep")} onBack={() => setType("Register")} title={t("where_do_you_want_to_study")} />
 
       <div className="mb-8">
-        <h2 className="text-lg mb-6">Where Do You Want To Study?</h2>
-        <SearchBar value={searchQuery} onChange={setSearchQuery} />
+        <h2 className="text-lg mb-6">{t("where_do_you_want_to_study")}</h2>
+        <SearchBar value={searchQuery} onChange={setSearchQuery} placeholder={t("search_countries")} />
       </div>
 
       <CustomGrid<Country> 
@@ -110,7 +111,7 @@ export default function SecondStep({ setType }: SecondStepProps) {
           onClick={handleContinue}
           loading={isSubmitting}
         >
-          Continue
+          {t("continue")}
         </ButtonComp>
       </div>
     </div>

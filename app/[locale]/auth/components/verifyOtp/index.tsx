@@ -5,20 +5,22 @@ import { LOGIN, RESEND_OTP, VERIFY_OTP } from "@/apis";
 import { useAppSelector } from "@/app/store/store";
 import { toast } from "react-toastify";
 import { loginAction } from "@/app/store/actions/authActions";
+import { useTranslations } from "next-intl";
 interface VerifyOtpProps {
   setType: (type: LoginType) => void;
 }
 
 export default function VerifyOtp({ setType }: VerifyOtpProps) {
+  const t = useTranslations("general");
   const { registerData } = useAppSelector((state) => state.register);
 
   const fields: MyFormOptions = [
     {
       name: "otp",
       type: "otp",
-      innerProps: { placeholder: "Enter OTP", length: 4 },
+      innerProps: { placeholder: t("enter_otp"), length: 4 },
       required: true,
-      rules: [{ required: true, message: "Please enter your OTP" }],
+      rules: [{ required: true, message: t("otp_is_required") }],
     },
   ];
 
@@ -52,21 +54,21 @@ export default function VerifyOtp({ setType }: VerifyOtpProps) {
 
   return (
     <div className="w-full max-w-md mx-auto bg-white rounded-xl p-8 shadow-md flex flex-col justify-center items-center">
-      <h3 className="text-2xl font-bold text-primary mb-4">Verify your email</h3>
-      <p className="text-text-small mb-6 text-sm">We sent a verification code to your email address</p>
+      <h3 className="text-2xl font-bold text-primary mb-4">{t("verify_your_email")}</h3>
+      <p className="text-text-small mb-6 text-sm">{t("we_sent_a_verification_code_to_your_email_address")}</p>
 
       <FormComp
         fileds={fields}
         onFinish={onFinish}
         layout="vertical"
         showSubmit
-        submitText="Verify OTP"
+        submitText={t("verify_otp")}
         submitStyleTw="w-full mt-5"
       />
 
       {/* resend otp */}
       <ButtonComp onClick={handleResendOtp} types="ghost">
-        Resend OTP
+        {t("resend_otp")}
       </ButtonComp>
     </div>
   );

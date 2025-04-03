@@ -50,7 +50,7 @@ export default function Navbar() {
   });
 
   return (
-    <header className="bg-white border-b border-gray-100 py-2 px-4 h-[var(--navbar-height)]">
+    <header className="bg-white border-b border-gray-100 py-2 px-4 h-[var(--navbar-height)] flex items-center">
       <div className="max-w-[var(--app-max-width)] mx-auto flex items-center justify-between w-full relative">
         {/* Logo */}
         <Link href={`/${locale}`} className="flex items-center gap-2">
@@ -91,7 +91,7 @@ export default function Navbar() {
           )}
           {!isAuthenticated && (
             <ButtonComp onClick={() => router.push("/auth")} className="rounded-lg">
-              Login
+              {t("login")}
             </ButtonComp>
           )}
         </div>

@@ -1,7 +1,10 @@
 import { MyFormOptions } from "@/components/form/formComp";
 import mailIcon from "@/assets/images/message.png";
+import { useTranslations } from "next-intl";
 
 const useFormData = () => {
+  const t = useTranslations("general");
+
   const styleProps = {
     style: {
       borderRadius: 15,
@@ -13,27 +16,27 @@ const useFormData = () => {
   const formFields: MyFormOptions = [
     {
       name: "username",
-      label: "Email",
+      label: t("email"),
       type: "input",
       innerProps: {
-        placeholder: "Email",
+        placeholder: t("email"),
         type: "email",
         ...styleProps,
         prefix: <img src={mailIcon.src} alt="mail" />,
       },
-      rules: [{ required: true, message: "Please enter your email" }],
+      rules: [{ required: true, message: t("email_is_required") }],
     },
     {
       name: "password",
-      label: "Password",
+      label: t("password"),
       type: "input",
       innerProps: {
-        placeholder: "Password",
+        placeholder: t("password"),
         type: "password",
         ...styleProps,
         // prefix: <img src={mailIcon.src} alt="mail" />,
       },
-      rules: [{ required: true, message: "Please enter your password" }],
+      rules: [{ required: true, message: t("password_is_required") }],
     },
   ];
 

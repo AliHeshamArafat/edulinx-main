@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { logout } from "../auth";
 import { getCookie } from "../cookies";
 import { logoutAction } from "@/app/store/actions/authActions";
-
+import { redirect } from "next/navigation";
 // Add this type declaration
 declare module "axios" {
   export interface AxiosRequestConfig {
@@ -40,21 +40,37 @@ api.interceptors.request.use(
 // Response interceptor
 api.interceptors.response.use(
   (response) => {
-    // Skip success message if skipSuccessMessage is true
-    if (!response.config?.skipSuccessMessage) toast.success(response.data.message);
-
+    // For client-side only
+    if (typeof window !== 'undefined' && !response.config?.skipSuccessMessage) {
+      toast.success(response.data.message);
+    }
     return response;
   },
   (error) => {
     console.log(error);
 
+    // Handle 401 errors
     if (error.response && error.response.status === 401 && !error.config?.skipUnauthorized) {
-      toast.error("Unauthorized");
-      logoutAction();
-      window.location.href = "/";
+      if (typeof window !== 'undefined') {
+        logoutAction();
+        window.location.href = "/";
+      } else {
+        redirect("/");
+      }
     }
 
-    if (error.response && !error.config?.skipErrorMessage) toast.error(error?.response?.data?.message);
+    // For client-side only - show toast
+    if (typeof window !== 'undefined' && error.response && !error.config?.skipErrorMessage) {
+      toast.error(error?.response?.data?.message);
+    }
+
+    // Always include error info in the response for client to handle
+    if (error.response) {
+      error.response.serverError = {
+        message: error.response?.data?.message || "An error occurred",
+        status: error.response.status
+      };
+    }
 
     return Promise.reject(error);
   }

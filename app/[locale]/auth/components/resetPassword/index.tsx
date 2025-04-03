@@ -4,6 +4,7 @@ import FormComp, { MyFormOptions, MyFormProps } from "@/components/form/formComp
 import { LoginType } from "../../page";
 import { RESET_PASSWORD } from "@/apis";
 import Header from "../secondStep/header";
+import { useTranslations } from "next-intl";
 interface ResetPasswordProps {
   setType?: (type: LoginType) => void;
   className?: string;
@@ -11,19 +12,21 @@ interface ResetPasswordProps {
 }
 
 export default function ResetPassword({ setType, className, formCompProps }: ResetPasswordProps) {
+  const t = useTranslations("general");
+
   const fields: MyFormOptions = [
     {
       name: "newPassword",
       type: "input",
-      innerProps: { placeholder: "Enter Password" },
-      rules: [{ required: true, message: "Please enter your password" }],
+      innerProps: { placeholder: t("enter_password") },
+      rules: [{ required: true, message: t("password_is_required") }],
       required: true,
     },
     {
       name: "confirmNewPassword",
       type: "input",
-      innerProps: { placeholder: "Confirm Password" },
-      rules: [{ required: true, message: "Please confirm your password" }],
+      innerProps: { placeholder: t("confirm_password") },
+      rules: [{ required: true, message: t("confirm_password_is_required") }],
       required: true,
     },
   ];
@@ -37,14 +40,14 @@ export default function ResetPassword({ setType, className, formCompProps }: Res
 
   return (
     <div className={`w-full max-w-md mx-auto bg-white rounded-xl p-8 shadow-md ${className}`}>
-      <Header hideSkip onBack={() => setType?.("Login")} title="Reset Password" />
+      <Header hideSkip onBack={() => setType?.("Login")} title={t("reset_password")} />
 
       <FormComp
         fileds={fields}
         onFinish={onFinish}
         layout="vertical"
         showSubmit
-        submitText="Reset Password"
+        submitText={t("reset_password")}
         submitStyleTw="w-full mt-5"
         className="!mt-8"
         {...formCompProps}

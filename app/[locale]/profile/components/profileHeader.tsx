@@ -7,7 +7,7 @@ import useUploadAntd from "@/hooks/useUplaodAntd";
 import useModal from "@/hooks/useModal";
 import FormComp from "@/components/form/formComp";
 import { useTranslations } from "next-intl";
-
+import { fallbackImageAvatar } from "@/components/layout/components/profileComp";
 interface ProfileHeaderProps {
   profile: ProfileData;
   loading?: boolean;
@@ -48,7 +48,7 @@ export default function ProfileHeader({ profile, loading, refetch }: ProfileHead
     <div className="flex flex-col items-center mb-6">
       <div className="relative w-24 h-24 mb-3">
         <Image
-          src={getImageUrl(profile?.profilePicturePath) || ""}
+          src={getImageUrl(profile?.profilePicturePath, fallbackImageAvatar)}
           alt={profile?.fullName || ""}
           fill
           className="rounded-full object-cover"

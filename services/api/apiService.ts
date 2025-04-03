@@ -19,8 +19,14 @@ const apiService = {
     try {
       const response = await api.get(`/${resource}`, { params, skipSuccessMessage, skipErrorMessage, ...config });
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
+      return {
+        success: false,
+        message: error.response?.data?.message || "An error occurred",
+        data: null,
+        status: error.response?.status
+      };
     }
   },
 
@@ -38,8 +44,14 @@ const apiService = {
     try {
       const response = await api.post(`/${resource}`, data, { ...config, params });
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
+      return {
+        success: false,
+        message: error.response?.data?.message || "An error occurred",
+        data: null,
+        status: error.response?.status
+      };
     }
   },
 
@@ -50,8 +62,14 @@ const apiService = {
         ...config,
       });
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
+      return {
+        success: false,
+        message: error.response?.data?.message || "An error occurred",
+        data: null,
+        status: error.response?.status
+      };
     }
   },
 
@@ -59,8 +77,14 @@ const apiService = {
     try {
       const response = await api.put(`/${resource}`, data, { ...config });
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
+      return {
+        success: false,
+        message: error.response?.data?.message || "An error occurred",
+        data: null,
+        status: error.response?.status
+      };
     }
   },
 
@@ -68,8 +92,14 @@ const apiService = {
     try {
       const response = await api.delete(`/${resource}/${id}`);
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
+      return {
+        success: false,
+        message: error.response?.data?.message || "An error occurred",
+        data: null,
+        status: error.response?.status
+      };
     }
   },
 };

@@ -6,6 +6,10 @@ import { useAppSelector } from "@/app/store/store";
 import { useRouter } from "next/navigation";
 import { getImageUrl } from "@/services/general";
 import { useTranslations } from "next-intl";
+
+export const fallbackImageAvatar =
+  "https://media.gettyimages.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o=";
+
 export default function ProfileComp() {
   const { user } = useAppSelector((state) => state.auth);
   const router = useRouter();
@@ -30,8 +34,10 @@ export default function ProfileComp() {
   return (
     <Dropdown menu={{ items }}>
       <div className="flex items-center gap-2 cursor-pointer">
-        <Avatar size="default" src={getImageUrl(user?.profilePicturePath)} />
-        <span className="text-sm hidden md:inline">{t("hi")}, {user?.fullName}</span>
+        <Avatar size="default" src={getImageUrl(user?.profilePicturePath, fallbackImageAvatar)} />
+        <span className="text-sm hidden md:inline">
+          {t("hi")}, {user?.fullName}
+        </span>
         <DownOutlined className="text-xs" />
       </div>
     </Dropdown>

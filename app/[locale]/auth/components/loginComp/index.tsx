@@ -9,7 +9,7 @@ import LoginSkeleton from "@/components/skeletons/loginSkeleton";
 import { loginAction } from "@/app/store/actions/authActions";
 import { redirect } from "next/navigation";
 import ButtonComp from "@/components/functional/buttonComp";
-
+import { useTranslations } from "next-intl";
 interface LoginCompProps {
   setType: (type: LoginType) => void;
 }
@@ -17,6 +17,8 @@ interface LoginCompProps {
 export default function LoginComp({ setType }: LoginCompProps) {
   const { formFields } = useFormData();
   const isMounted = useIsMounted();
+
+  const t = useTranslations("general");
 
   const onSubmit = (values: any) => {
     LOGIN(values).then((res) => {
@@ -31,14 +33,14 @@ export default function LoginComp({ setType }: LoginCompProps) {
 
   return (
     <div className="w-full max-w-md mx-auto bg-white rounded-xl p-8 shadow-md">
-      <h2 className="text-2xl font-semibold text-primary mb-4 text-center">Hi, Welcome!</h2>
+      <h2 className="text-2xl font-semibold text-primary mb-4 text-center">{t("hi_welcome")}</h2>
 
       <FormComp
         fileds={formFields}
         onFinish={onSubmit}
         layout="vertical"
         showSubmit
-        submitText="Login"
+        submitText={t("login")}
         submitStyleTw="w-full bg-primary text-white py-3 rounded-lg font-medium"
       >
         {/* Forgot Password Link */}
@@ -55,9 +57,9 @@ export default function LoginComp({ setType }: LoginCompProps) {
       {/* Already have an account section */}
       <div className="mt-8 text-center">
         <p className="text-text-small">
-          Don&apos;t have an account?
-          <span className="text-primary font-medium ml-1 cursor-pointer" onClick={() => setType("Register")}>
-            Sign up
+          {t("dont_have_account")}
+          <span className="text-primary font-medium ml-1 cursor-pointer mx-1" onClick={() => setType("Register")}>
+            {t("sign_up")}
           </span>
         </p>
       </div>

@@ -3,7 +3,7 @@ import { StudentApplicationCreate } from "./types/student";
 import { setCookie } from "./services/cookies";
 import { RegisterData, ResetPasswordData, VerifyOtpData, ProfileResponse } from "./types/auth";
 import { AxiosRequestConfig } from "axios";
-
+import { ApiResponse } from "./types/api";
 interface QueryParams {
   [key: string]: string | number;
 }
@@ -119,7 +119,7 @@ export const GET_STUDENT_APPLICATIONS = async ({ params }: { params?: QueryParam
 };
 
 // get profile
-export const GET_PROFILE = async (): Promise<ProfileResponse | undefined> => {
+export const GET_PROFILE = async (): Promise<ApiResponse<ProfileResponse> | undefined> => {
   return apiService.get({ resource: `account/profile` });
 };
 

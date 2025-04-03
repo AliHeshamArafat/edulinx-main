@@ -23,9 +23,9 @@ export default function AuthPage() {
   // }, [isAuthenticated]);
 
   // reset type when unmount
-  useEffect(() => {
-    return () => setType("Login");
-  }, []);
+  // useEffect(() => {
+  //   return () => setType("Login");
+  // }, []);
 
   // if (isAuthenticated) return null;
 

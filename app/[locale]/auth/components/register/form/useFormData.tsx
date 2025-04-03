@@ -1,7 +1,10 @@
 import { MyFormOptions } from "@/components/form/formComp";
 import mailIcon from "@/assets/images/message.png";
+import { useTranslations } from "next-intl";
 
 const useFormData = () => {
+  const t = useTranslations("general");
+
   const styleProps = {
     style: {
       borderRadius: 15,
@@ -13,59 +16,59 @@ const useFormData = () => {
   const formFields: MyFormOptions = [
     {
       name: "email",
-      label: "Email",
+      label: t("email"),
       type: "input",
       innerProps: {
-        placeholder: "Email",
+        placeholder: t("email"),
         type: "email",
         ...styleProps,
         prefix: <img src={mailIcon.src} alt="mail" />,
       },
-      rules: [{ required: true, message: "Please enter your email" }],
+      rules: [{ required: true, message: t("email_is_required") }],
     },
     {
       name: "fullName",
-      label: "Full Name",
+      label: t("full_name"),
       type: "input",
       innerProps: {
-        placeholder: "Full Name",
+        placeholder: t("full_name"),
         ...styleProps,
       },
-      rules: [{ required: true, message: "Please enter your full name" }],
+      rules: [{ required: true, message: t("full_name_is_required") }],
     },
     {
       name: "phone",
-      label: "Phone Number",
+      label: t("phone"),
       type: "input",
       innerProps: {
         ...styleProps,
-        placeholder: "Phone Number",
+        placeholder: t("phone"),
         // type: "number",
       },
-      rules: [{ required: true, message: "Please enter your phone number" }],
+      rules: [{ required: true, message: t("phone_is_required") }],
     },
     {
       name: "password",
-      label: "Password",
+      label: t("password"),
       type: "input",
       innerProps: {
-        placeholder: "Password",
+        placeholder: t("password"),
         type: "password",
         ...styleProps,
         // prefix: <img src={mailIcon.src} alt="mail" />,
       },
-      rules: [{ required: true, message: "Please enter your password" }],
+      rules: [{ required: true, message: t("password_is_required") }],
     },
     {
       name: "confirmPassword",
-      label: "Confirm Password",
+      label: t("confirm_password"),
       type: "input",
       innerProps: {
         ...styleProps,
-        placeholder: "Confirm Password",
+        placeholder: t("confirm_password"),
         type: "password",
       },
-      rules: [{ required: true, message: "Please enter your confirm password" }],
+      rules: [{ required: true, message: t("confirm_password_is_required") }],
     },
   ];
 

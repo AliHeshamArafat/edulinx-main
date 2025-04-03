@@ -5,6 +5,7 @@ import facebookLogo from "@/assets/images/Facebook.png";
 import googleLogo from "@/assets/images/Google logo.png";
 import appleLogo from "@/assets/images/Apple.png";
 import ButtonComp from "@/components/functional/buttonComp";
+import { useTranslations } from "next-intl";
 // Define social login providers as an array
 const socialProviders = [
   { id: "facebook", image: facebookLogo, alt: "Facebook" },
@@ -13,6 +14,8 @@ const socialProviders = [
 ];
 
 export default function SocialLoginSection() {
+  const t = useTranslations("general");
+
   const handleSocialLogin = (provider: string) => {
     // Implement social login logic here
     console.log(`Login with ${provider}`);
@@ -22,7 +25,7 @@ export default function SocialLoginSection() {
     <div className="mt-6">
       <div className="relative flex items-center justify-center">
         <div className="border-t border-[#E0E0E0] flex-grow"></div>
-        <span className="mx-4 text-text-small text-sm">Or Register with</span>
+        <span className="mx-4 text-text-small text-sm">{t("or_register_with")}</span>
         <div className="border-t border-[#E0E0E0] flex-grow"></div>
       </div>
 

@@ -1,5 +1,5 @@
 import { DegreeType } from "@/types/program";
-
+import { useTranslations } from "next-intl";
 export const degreeOptions = [
   {
     id: DegreeType.Bachelor,
@@ -25,9 +25,11 @@ interface DegreePreferenceProps {
 }
 
 export default function DegreePreference({ selectedDegree, onSelect }: DegreePreferenceProps) {
+  const t = useTranslations("general");
+
   return (
     <div className="mb-6">
-      <h3 className="text-sm font-medium mb-3">Select Your Degree Preference</h3>
+      <h3 className="text-sm font-medium mb-3">{t("select_your_degree_preference")}</h3>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         {degreeOptions.map((option) => (
           <div
@@ -39,7 +41,7 @@ export default function DegreePreference({ selectedDegree, onSelect }: DegreePre
                 : 'border-gray-200 hover:border-primary/50'
             }`}
           >
-            {option.label}
+            {t(option.label)}
           </div>
         ))}
       </div>
